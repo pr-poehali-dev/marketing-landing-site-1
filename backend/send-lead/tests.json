@@ -1,0 +1,31 @@
+{
+  "tests": [
+    {
+      "name": "OPTIONS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "POST lead",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "name": "Test User",
+        "email": "test@example.com",
+        "phone": "+7 999 123 4567"
+      },
+      "expectedStatus": 200
+    },
+    {
+      "name": "POST without name",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "name": "",
+        "email": "test@example.com"
+      },
+      "expectedStatus": 400
+    }
+  ]
+}
