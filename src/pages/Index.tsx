@@ -497,12 +497,12 @@ const Index = () => {
           <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">Немного <span className="text-primary">обо мне</span></h2>
           
           <div className="flex flex-col md:flex-row gap-8 items-center mb-12">
-            <div className="relative shrink-0">
-              <div className="absolute -inset-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full blur-sm opacity-75"></div>
+            <div className="relative shrink-0 group cursor-pointer">
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full blur-sm opacity-75 group-hover:opacity-100 group-hover:blur-md transition-all duration-500"></div>
               <img 
                 src="https://cdn.poehali.dev/projects/56b091ad-15fa-4b9f-b598-f9ae88a1ec56/bucket/91e80fbe-d0c6-4b6b-8183-f165fd8e64d7.jpg" 
                 alt="Константин Пожидаев" 
-                className="relative w-64 h-64 md:w-80 md:h-80 rounded-full object-cover border-4 border-white shadow-2xl"
+                className="relative w-64 h-64 md:w-80 md:h-80 rounded-full object-cover border-4 border-white shadow-2xl group-hover:scale-105 transition-transform duration-500"
               />
             </div>
             
