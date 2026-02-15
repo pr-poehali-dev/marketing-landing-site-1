@@ -36,6 +36,7 @@ const Index = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [certIdx, setCertIdx] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,6 +45,11 @@ const Index = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleMobileMenuClick = (id: string) => {
+    scrollToSection(id);
+    setMobileMenuOpen(false);
+  };
 
   const scrollCert = (dir: number) => {
     const next = Math.max(0, Math.min(certImages.length - 1, certIdx + dir));
@@ -70,19 +76,47 @@ const Index = () => {
               <button onClick={() => scrollToSection('about-me')} className="text-sm font-medium hover:text-primary transition-colors">Обо мне</button>
               <button onClick={() => scrollToSection('contact')} className="text-sm font-medium hover:text-primary transition-colors">Контакты</button>
             </div>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">Получить аудит</Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Бесплатный аудит</DialogTitle>
-                  <DialogDescription>Оставьте контакты — свяжусь в течение 24 часов</DialogDescription>
-                </DialogHeader>
-                <LeadForm />
-              </DialogContent>
-            </Dialog>
+            <div className="hidden md:block">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">Получить аудит</Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Бесплатный аудит</DialogTitle>
+                    <DialogDescription>Оставьте контакты — свяжусь в течение 24 часов</DialogDescription>
+                  </DialogHeader>
+                  <LeadForm />
+                </DialogContent>
+              </Dialog>
+            </div>
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2" aria-label="Меню">
+              <Icon name={mobileMenuOpen ? "X" : "Menu"} size={28} />
+            </button>
           </div>
+
+          {mobileMenuOpen && (
+            <div className="md:hidden mt-4 pb-4 space-y-3 border-t pt-4">
+              <button onClick={() => handleMobileMenuClick('results')} className="block w-full text-left py-2 px-4 hover:bg-primary/10 rounded-lg transition-colors">Результаты</button>
+              <button onClick={() => handleMobileMenuClick('approach')} className="block w-full text-left py-2 px-4 hover:bg-primary/10 rounded-lg transition-colors">Подход</button>
+              <button onClick={() => handleMobileMenuClick('cases')} className="block w-full text-left py-2 px-4 hover:bg-primary/10 rounded-lg transition-colors">Кейсы</button>
+              <button onClick={() => handleMobileMenuClick('quiz')} className="block w-full text-left py-2 px-4 hover:bg-primary/10 rounded-lg transition-colors">Квиз</button>
+              <button onClick={() => handleMobileMenuClick('about-me')} className="block w-full text-left py-2 px-4 hover:bg-primary/10 rounded-lg transition-colors">Обо мне</button>
+              <button onClick={() => handleMobileMenuClick('contact')} className="block w-full text-left py-2 px-4 hover:bg-primary/10 rounded-lg transition-colors">Контакты</button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90">Получить аудит</Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Бесплатный аудит</DialogTitle>
+                    <DialogDescription>Оставьте контакты — свяжусь в течение 24 часов</DialogDescription>
+                  </DialogHeader>
+                  <LeadForm />
+                </DialogContent>
+              </Dialog>
+            </div>
+          )}
         </div>
       </nav>
 
@@ -626,7 +660,7 @@ const Index = () => {
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 p-4 bg-gradient-to-r from-primary to-secondary text-white rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 group"
+          className="fixed bottom-28 right-8 z-50 p-4 bg-gradient-to-r from-primary to-secondary text-white rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 group"
           aria-label="Наверх"
         >
           <Icon name="ArrowUp" size={24} className="group-hover:animate-bounce" />
