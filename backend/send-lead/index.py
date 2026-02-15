@@ -3,10 +3,27 @@ import os
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import urllib.request
+import urllib.parse
+
+
+def send_telegram(bot_token, chat_id, text):
+    """Отправка сообщения в Telegram"""
+    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+    data = urllib.parse.urlencode({
+        'chat_id': chat_id,
+        'text': text,
+        'parse_mode': 'HTML'
+    }).encode()
+    try:
+        req = urllib.request.Request(url, data=data)
+        urllib.request.urlopen(req)
+    except:
+        pass
 
 
 def handler(event, context):
-    """Отправка заявки с сайта на почту pozhidaev.kostya@yandex.ru"""
+    """Отправка заявки с сайта на почту pozhidaev.kostya@yandex.ru и в Telegram"""
 
     if event.get('httpMethod') == 'OPTIONS':
         return {
@@ -37,8 +54,13 @@ def handler(event, context):
     smtp_password = os.environ.get('SMTP_PASSWORD', '')
     sender_email = 'pozhidaev.kostya@yandex.ru'
     recipient_email = 'pozhidaev.kostya@yandex.ru'
+    
+    telegram_bot_token = os.environ.get('TELEGRAM_BOT_TOKEN', '')
+    telegram_chat_id = os.environ.get('TELEGRAM_CHAT_ID', '')
 
     quiz_html = ''
+    telegram_text = ''
+    
     if quiz and isinstance(quiz, dict):
         subject = f'Результат квиза от {name}'
         label_map = {
@@ -56,18 +78,31 @@ def handler(event, context):
             'priority': 'Приоритет',
         }
         rows = ''
+        tg_rows = ''
         for key, label in label_map.items():
             val = quiz.get(key, '')
             if val:
                 rows += f'<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold;background:#f9f9f9;">{label}</td><td style="padding:8px;border:1px solid #ddd;">{val}</td></tr>'
+                tg_rows += f'\n<b>{label}:</b> {val}'
         quiz_html = f'''
         <h3 style="margin-top:20px;">Ответы квиза:</h3>
         <table style="border-collapse:collapse;width:100%;max-width:600px;">
             {rows}
         </table>
         '''
+        telegram_text = f'''🎯 <b>Новый квиз!</b>
+
+<b>Имя:</b> {name}
+<b>Email:</b> {email}
+<b>Телефон:</b> {phone or 'Не указан'}
+{tg_rows}'''
     else:
         subject = f'Новая заявка с сайта от {name}'
+        telegram_text = f'''📩 <b>Новая заявка!</b>
+
+<b>Имя:</b> {name}
+<b>Email:</b> {email}
+<b>Телефон:</b> {phone or 'Не указан'}'''
 
     html_body = f"""
     <h2>{subject}</h2>
@@ -89,6 +124,9 @@ def handler(event, context):
         with smtplib.SMTP_SSL('smtp.yandex.ru', 465) as server:
             server.login(sender_email, smtp_password)
             server.sendmail(sender_email, recipient_email, msg.as_string())
+
+    if telegram_bot_token and telegram_chat_id and telegram_text:
+        send_telegram(telegram_bot_token, telegram_chat_id, telegram_text)
 
     return {
         'statusCode': 200,
