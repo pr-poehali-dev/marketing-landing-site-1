@@ -1,16 +1,59 @@
+import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Link } from 'react-router-dom';
 import LeadForm from '@/components/LeadForm';
 import TelegramButton from '@/components/TelegramButton';
 import CaseCard from '@/components/CaseCard';
+import QuizSection from '@/components/QuizSection';
 import { cases } from '@/data/cases';
+
+const YADISK_PUBLIC_KEY = 'https://disk.yandex.ru/d/okd1Fu24BYjvWg';
+
+interface CertImage {
+  src: string;
+  alt: string;
+}
 
 const Index = () => {
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [certIdx, setCertIdx] = useState(0);
+  const [certImages, setCertImages] = useState<CertImage[]>([]);
+
+  useEffect(() => {
+    const fetchCerts = async () => {
+      try {
+        const url = `https://cloud-api.yandex.net/v1/disk/public/resources?public_key=${encodeURIComponent(YADISK_PUBLIC_KEY)}&limit=20`;
+        const res = await fetch(url);
+        const data = await res.json();
+        const items = data?._embedded?.items || [];
+        const images: CertImage[] = items
+          .filter((item: { media_type?: string; preview?: string }) => item.media_type === 'image' && item.preview)
+          .map((item: { preview?: string }, i: number) => {
+            const previewUrl = (item.preview || '').replace('size=S', 'size=XL');
+            return { src: previewUrl, alt: `Сертификат ${i + 1}` };
+          });
+        setCertImages(images);
+      } catch {
+        // silent
+      }
+    };
+    fetchCerts();
+  }, []);
+
+  const scrollCert = (dir: number) => {
+    const next = Math.max(0, Math.min(certImages.length - 1, certIdx + dir));
+    setCertIdx(next);
+    if (carouselRef.current) {
+      const child = carouselRef.current.children[next] as HTMLElement;
+      child?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
   };
 
   return (
@@ -22,19 +65,20 @@ const Index = () => {
               Константин Пожидаев
             </div>
             <div className="hidden md:flex gap-6">
-              <button onClick={() => scrollToSection('about')} className="text-sm font-medium hover:text-primary transition-colors">О себе</button>
-              <button onClick={() => scrollToSection('services')} className="text-sm font-medium hover:text-primary transition-colors">Услуги</button>
+              <button onClick={() => scrollToSection('results')} className="text-sm font-medium hover:text-primary transition-colors">Результаты</button>
+              <button onClick={() => scrollToSection('approach')} className="text-sm font-medium hover:text-primary transition-colors">Подход</button>
               <button onClick={() => scrollToSection('cases')} className="text-sm font-medium hover:text-primary transition-colors">Кейсы</button>
-              <button onClick={() => scrollToSection('expertise')} className="text-sm font-medium hover:text-primary transition-colors">Экспертность</button>
+              <button onClick={() => scrollToSection('quiz')} className="text-sm font-medium hover:text-primary transition-colors">Квиз</button>
+              <button onClick={() => scrollToSection('about-me')} className="text-sm font-medium hover:text-primary transition-colors">Обо мне</button>
               <button onClick={() => scrollToSection('contact')} className="text-sm font-medium hover:text-primary transition-colors">Контакты</button>
             </div>
             <Dialog>
               <DialogTrigger asChild>
-                <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">Обсудить проект</Button>
+                <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">Получить аудит</Button>
               </DialogTrigger>
               <DialogContent className="max-w-md">
                 <DialogHeader>
-                  <DialogTitle>Обсудить проект</DialogTitle>
+                  <DialogTitle>Бесплатный аудит</DialogTitle>
                   <DialogDescription>Оставьте контакты — свяжусь в течение 24 часов</DialogDescription>
                 </DialogHeader>
                 <LeadForm />
@@ -44,34 +88,55 @@ const Index = () => {
         </div>
       </nav>
 
+      {/* Экран 1 — УТП */}
       <section className="pt-32 pb-20 px-4">
-        <div className="container mx-auto max-w-6xl">
+        <div className="container mx-auto max-w-5xl">
           <div className="text-center space-y-6 animate-fade-in">
             <div className="inline-block">
-              <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">10+ лет в digital-маркетинге</span>
+              <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">Системный маркетинг для бизнеса</span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-              Помогаю бизнесам расти <br />
-              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">в условиях жёсткой конкуренции</span>
+            <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+              Помогаю руководителям и собственникам бизнеса перейти{' '}
+              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">от хаоса в маркетинге к спокойному контролю и прогнозируемой прибыли</span>
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">Через аналитику, стратегию и маркетинг, который считает деньги</p>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Performance, маркетплейсы, онлайн-образование, ECO и lifestyle‑бренды.<br />
-              Работаю как партнёр бизнеса, а не подрядчик по рекламе.
-            </p>
+            <div className="max-w-3xl mx-auto text-left space-y-3">
+              <div className="flex items-start gap-3">
+                <Icon name="TrendingUp" className="text-primary mt-1 shrink-0" size={22} />
+                <p className="text-lg md:text-xl text-muted-foreground">вы видите рост дохода на цифрах</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <Icon name="PiggyBank" className="text-primary mt-1 shrink-0" size={22} />
+                <p className="text-lg md:text-xl text-muted-foreground">маркетинговый бюджет расходуется эффективно</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <Icon name="BarChart3" className="text-primary mt-1 shrink-0" size={22} />
+                <p className="text-lg md:text-xl text-muted-foreground">отчёты просты, решения прозрачны, никто не тянет вас в лишнюю рутину</p>
+              </div>
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
-              <Button size="lg" onClick={() => scrollToSection('cases')} className="text-lg px-8 bg-gradient-to-r from-primary to-secondary hover:opacity-90">
-                <Icon name="Briefcase" className="mr-2" size={20} />Посмотреть кейсы
-              </Button>
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button size="lg" variant="outline" className="text-lg px-8 border-2">
-                    <Icon name="MessageCircle" className="mr-2" size={20} />Обсудить задачу
+                  <Button size="lg" className="text-lg px-8 bg-gradient-to-r from-primary to-secondary hover:opacity-90">
+                    <Icon name="Search" className="mr-2" size={20} />Получить бесплатный аудит
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-md">
                   <DialogHeader>
-                    <DialogTitle>Обсудить проект</DialogTitle>
+                    <DialogTitle>Бесплатный аудит</DialogTitle>
+                    <DialogDescription>Оставьте контакты — проведу экспресс-аудит вашего маркетинга</DialogDescription>
+                  </DialogHeader>
+                  <LeadForm />
+                </DialogContent>
+              </Dialog>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="lg" variant="outline" className="text-lg px-8 border-2">
+                    <Icon name="MessageCircle" className="mr-2" size={20} />Записаться на консультацию
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Запись на консультацию</DialogTitle>
                     <DialogDescription>Оставьте контакты — свяжусь в течение 24 часов</DialogDescription>
                   </DialogHeader>
                   <LeadForm />
@@ -82,243 +147,439 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="about" className="py-20 px-4 bg-gradient-to-b from-white to-purple-50/50">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h2 className="text-4xl md:text-5xl font-bold">
-                Я строю маркетинговые <span className="text-primary">системы</span>, а не просто запускаю рекламу
-              </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">За последние 10+ лет я работал интернет‑маркетологом, тимлидом по трафику и директором по маркетингу.</p>
-              <p className="text-lg leading-relaxed">
-                Моя зона ответственности — не клики и отчёты, а <span className="font-semibold text-primary">рост выручки</span>, управляемость маркетинга и прогнозируемый результат.
-              </p>
-            </div>
-            <Card className="border-2 shadow-xl hover:shadow-2xl transition-shadow">
-              <CardHeader><CardTitle className="text-2xl">Я глубоко погружаюсь в бизнес:</CardTitle></CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="bg-primary/10 p-2 rounded-lg"><Icon name="Target" className="text-primary" size={24} /></div>
-                  <div><p className="font-medium">Понимаю продукт и экономику</p><p className="text-sm text-muted-foreground">Изучаю бизнес-модель целиком</p></div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="bg-accent/10 p-2 rounded-lg"><Icon name="Calculator" className="text-accent" size={24} /></div>
-                  <div><p className="font-medium">Считаю воронки и unit‑экономику</p><p className="text-sm text-muted-foreground">Цифры превыше всего</p></div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="bg-secondary/10 p-2 rounded-lg"><Icon name="BarChart3" className="text-secondary" size={24} /></div>
-                  <div><p className="font-medium">Принимаю решения на основе данных</p><p className="text-sm text-muted-foreground">Не интуиции, а аналитики</p></div>
-                </div>
-                <div className="mt-6 p-4 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-lg border border-primary/20">
-                  <p className="font-semibold text-center">Маркетинг для меня — это инженерная система, где всё должно быть измеримо и понятно</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+      {/* Экран 2 — Основной результат */}
+      <section id="results" className="py-20 px-4 bg-gradient-to-b from-white to-purple-50/50">
+        <div className="container mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">
+            Превратите маркетинг в{' '}
+            <span className="text-primary">понятную управляемую систему</span>{' '}
+            с реальным ростом прибыли
+          </h2>
+          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+            Маркетинг вашего бизнеса начнёт приносить не только лиды, но и стабильный финансовый результат, а эффективность всех вложений будет наглядно видна и прогнозируема. Возвращайте клиентов, увеличивайте средний чек и закрывайте слабые места вашего бизнеса системно.
+          </p>
         </div>
       </section>
 
+      {/* Экран 3 — Рациональные и эмоциональные результаты */}
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-12">Факты, за которые я <span className="text-primary">отвечал лично</span></h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="text-center p-8 border-2 hover:border-primary transition-colors hover:shadow-xl">
-              <div className="text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">29</div>
-              <p className="text-lg font-semibold mb-2">Онлайн‑марафонов</p>
-              <p className="text-muted-foreground">с посещаемостью 10–18 тыс. человек</p>
-            </Card>
-            <Card className="text-center p-8 border-2 hover:border-accent transition-colors hover:shadow-xl">
-              <div className="text-5xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent mb-2">3000+</div>
-              <p className="text-lg font-semibold mb-2">Учеников</p>
-              <p className="text-muted-foreground">в онлайн‑школах, где я выстраивал маркетинг</p>
-            </Card>
-            <Card className="text-center p-8 border-2 hover:border-secondary transition-colors hover:shadow-xl">
-              <div className="text-5xl font-bold bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent mb-2">3-8 млн</div>
-              <p className="text-lg font-semibold mb-2">Бюджет в месяц</p>
-              <p className="text-muted-foreground">на рекламу в проектах 2022-2025</p>
-            </Card>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6 mt-6">
-            <Card className="p-6 border-2 hover:shadow-xl transition-shadow">
-              <div className="flex items-center gap-4">
-                <div className="bg-primary/10 p-4 rounded-xl"><Icon name="TrendingUp" className="text-primary" size={32} /></div>
-                <div><div className="text-3xl font-bold text-primary">250-300%</div><p className="text-muted-foreground">ROI в каждом проекте</p></div>
-              </div>
-            </Card>
-            <Card className="p-6 border-2 hover:shadow-xl transition-shadow">
-              <div className="flex items-center gap-4">
-                <div className="bg-accent/10 p-4 rounded-xl"><Icon name="Users" className="text-accent" size={32} /></div>
-                <div><div className="text-3xl font-bold text-accent">2 года</div><p className="text-muted-foreground">Директор по маркетингу в онлайн‑школах</p></div>
-              </div>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      <section id="services" className="py-20 px-4 bg-gradient-to-b from-purple-50/50 to-white">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">С какими проектами я <span className="text-primary">работаю</span></h2>
-          <p className="text-center text-muted-foreground text-lg mb-12">Специализация в высококонкурентных нишах</p>
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="border-2 hover:border-primary hover:shadow-2xl transition-all group">
-              <CardHeader>
-                <div className="bg-gradient-to-br from-primary to-secondary p-4 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform"><Icon name="GraduationCap" className="text-white" size={32} /></div>
-                <CardTitle className="text-2xl">Онлайн‑образование</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="flex items-start gap-2"><Icon name="Check" className="text-primary mt-1" size={18} /><span>Автоворонки и запуски</span></div>
-                <div className="flex items-start gap-2"><Icon name="Check" className="text-primary mt-1" size={18} /><span>Масштабирование и удержание</span></div>
-                <div className="flex items-start gap-2"><Icon name="Check" className="text-primary mt-1" size={18} /><span>Аналитика и экономика продукта</span></div>
-              </CardContent>
-            </Card>
-            <Card className="border-2 hover:border-accent hover:shadow-2xl transition-all group">
-              <CardHeader>
-                <div className="bg-gradient-to-br from-accent to-primary p-4 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform"><Icon name="ShoppingCart" className="text-white" size={32} /></div>
-                <CardTitle className="text-2xl">E-com и Маркетплейсы</CardTitle>
-                <CardDescription>Wildberries, Ozon</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="flex items-start gap-2"><Icon name="Check" className="text-accent mt-1" size={18} /><span>Стратегия роста бренда</span></div>
-                <div className="flex items-start gap-2"><Icon name="Check" className="text-accent mt-1" size={18} /><span>SEO и упаковка карточек</span></div>
-                <div className="flex items-start gap-2"><Icon name="Check" className="text-accent mt-1" size={18} /><span>Внутренняя и внешняя реклама</span></div>
-              </CardContent>
-            </Card>
-            <Card className="border-2 hover:border-secondary hover:shadow-2xl transition-all group">
-              <CardHeader>
-                <div className="bg-gradient-to-br from-secondary to-accent p-4 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform"><Icon name="Zap" className="text-white" size={32} /></div>
-                <CardTitle className="text-2xl">Сложные бизнесы</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <div className="flex items-start gap-2"><Icon name="Check" className="text-secondary mt-1" size={18} /><span>Высокая конкуренция</span></div>
-                <div className="flex items-start gap-2"><Icon name="Check" className="text-secondary mt-1" size={18} /><span>Нет очевидных решений</span></div>
-                <div className="flex items-start gap-2"><Icon name="Check" className="text-secondary mt-1" size={18} /><span>Нужен взрослый, системный маркетинг</span></div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-12">Как я <span className="text-primary">работаю</span></h2>
-          <div className="space-y-4 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">Что вы <span className="text-primary">получите</span></h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { icon: 'Search', title: 'Погружаюсь в бизнес и продукт', color: 'primary' },
-              { icon: 'Calculator', title: 'Оцифровываю воронку и экономику', color: 'secondary' },
-              { icon: 'Users', title: 'Составляю аватары клиентов — их боли, желания, потребности', color: 'accent' },
-              { icon: 'Target', title: 'Под аватары формирую УТП, оффер, конвертеры трафика', color: 'primary' },
-              { icon: 'Lightbulb', title: 'Формирую стратегию и гипотезы роста', color: 'secondary' },
-              { icon: 'Rocket', title: 'Запускаю, анализирую, масштабирую', color: 'accent' },
-              { icon: 'CheckCircle', title: 'Регулярно отчитываюсь и контролирую', color: 'primary' }
-            ].map((step, index) => (
-              <Card key={index} className="border-2 hover:shadow-xl transition-all hover:scale-[1.02]">
+              { icon: 'Eye', title: 'Полная прозрачность маркетинга', desc: 'Знаете, как работает каждый рекламный канал и куда идут деньги' },
+              { icon: 'TrendingUp', title: 'Реальный и быстрый рост прибыли', desc: 'Проверяемый цифрами раз в неделю' },
+              { icon: 'FileText', title: 'Честные и ясные отчёты', desc: 'Без сложной терминологии — всё понятно' },
+              { icon: 'Heart', title: 'Уверенность и спокойствие', desc: 'Сосредоточьтесь на развитии бизнеса, а не на контроле подрядчиков' },
+              { icon: 'Repeat', title: 'Повторные покупки', desc: 'Выстраиваем механики возврата и постоянных клиентов' },
+            ].map((item, i) => (
+              <Card key={i} className="border-2 hover:border-primary hover:shadow-xl transition-all group">
+                <CardContent className="p-6">
+                  <div className="bg-primary/10 p-3 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform">
+                    <Icon name={item.icon} className="text-primary" size={28} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground">{item.desc}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Экран 4 — Инновационный подход */}
+      <section id="approach" className="py-20 px-4 bg-gradient-to-b from-purple-50/50 to-white">
+        <div className="container mx-auto max-w-6xl">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">Почему это <span className="text-primary">работает</span></h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              { icon: 'Fingerprint', title: 'Индивидуальный план «под ваш бизнес»', desc: 'Никаких шаблонов — разработка и внедрение плана именно для вас' },
+              { icon: 'Settings', title: 'Только нужные инструменты', desc: 'Внедряю то, что реально нужно, а не «всё подряд»' },
+              { icon: 'Zap', title: 'Быстрые промежуточные результаты', desc: 'Первые изменения видны уже через 2–4 недели' },
+              { icon: 'Layers', title: 'В глубину, а не в ширину', desc: 'Не только реклама, но и аналитика, CRM, воронки, автоматизация' },
+            ].map((item, i) => (
+              <Card key={i} className="border-2 hover:shadow-xl transition-all">
+                <CardContent className="flex items-start gap-4 p-6">
+                  <div className="bg-accent/10 p-3 rounded-xl shrink-0">
+                    <Icon name={item.icon} className="text-accent" size={28} />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold mb-1">{item.title}</h3>
+                    <p className="text-muted-foreground">{item.desc}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Экран 5 — Выгоды для руководителя */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">Главные <span className="text-primary">выгоды</span> для вас</h2>
+          <div className="space-y-4">
+            {[
+              { icon: 'Key', text: 'Всё под ключ — экономия вашего времени' },
+              { icon: 'Wallet', text: 'Снижение необязательных трат — только эффективные практики и «честная» аналитика' },
+              { icon: 'CalendarCheck', text: 'Не нужно «всё держать в голове»: еженедельная контрольная точка и обратная связь' },
+              { icon: 'Rocket', text: 'Маркетинг становится не затратой, а источником роста бизнеса' },
+            ].map((item, i) => (
+              <Card key={i} className="border-2 hover:border-primary/50 hover:shadow-lg transition-all">
                 <CardContent className="flex items-center gap-4 p-6">
-                  <div className={`bg-${step.color}/10 p-4 rounded-xl shrink-0`}><Icon name={step.icon as any} className={`text-${step.color}`} size={28} /></div>
+                  <div className="bg-primary/10 p-3 rounded-xl shrink-0">
+                    <Icon name={item.icon} className="text-primary" size={24} />
+                  </div>
+                  <p className="text-lg font-medium">{item.text}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Экран 6 — Кому подходит / не подходит */}
+      <section className="py-20 px-4 bg-gradient-to-b from-white to-purple-50/50">
+        <div className="container mx-auto max-w-6xl">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">Кому это <span className="text-primary">подходит</span></h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <Card className="border-2 border-primary/30 shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-2xl flex items-center gap-3">
+                  <div className="bg-primary/10 p-2 rounded-lg"><Icon name="CheckCircle" className="text-primary" size={24} /></div>
+                  Подходит
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {[
+                  'Владельцам, руководителям малого и среднего бизнеса с продажами в интернете или маркетплейсах',
+                  'Компаниям с рекламным бюджетом от 50 000 руб. в месяц',
+                  'Тем, кто готов вовлекаться ради системной работы хотя бы 1 час в неделю',
+                ].map((text, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <Icon name="Check" className="text-primary mt-1 shrink-0" size={18} />
+                    <p>{text}</p>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+            <Card className="border-2 border-destructive/30 shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-2xl flex items-center gap-3">
+                  <div className="bg-destructive/10 p-2 rounded-lg"><Icon name="XCircle" className="text-destructive" size={24} /></div>
+                  Не подойдёт
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {[
+                  'Если нужен только разовый запуск или «быстрая накрутка лидов»',
+                  'Нет сайта / интернет-витрины вообще',
+                  'Нет готовности реагировать на изменения или делиться информацией',
+                ].map((text, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <Icon name="X" className="text-destructive mt-1 shrink-0" size={18} />
+                    <p>{text}</p>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Экран 7 — Шаги работы */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">Как строится наш <span className="text-primary">процесс</span></h2>
+          <div className="space-y-4">
+            {[
+              { icon: 'MessageSquare', title: 'Интервью и экспресс-аудит вашей маркетинговой системы' },
+              { icon: 'Target', title: 'Совместная постановка целей: фиксируем метрики и ожидаемый результат' },
+              { icon: 'Map', title: 'Создаю подробную карту повышения эффективности' },
+              { icon: 'Settings', title: 'Внедряю прозрачную аналитику, автоматизацию, оптимизацию каналов' },
+              { icon: 'BarChart3', title: 'Настраиваю отчётность — вы всегда «в курсе», сколько вложено и что получили' },
+              { icon: 'RefreshCw', title: 'Постоянная поддержка и корректировка — еженедельные разборы, ответы, обучение вашего сотрудника' },
+              { icon: 'CheckCircle', title: 'Итоговая проверка — сравниваем было/стало, выдаю понятную «инструкцию» по поддержанию результата' },
+            ].map((step, i) => (
+              <Card key={i} className="border-2 hover:shadow-xl transition-all hover:scale-[1.01]">
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className={`${i % 3 === 0 ? 'bg-primary/10' : i % 3 === 1 ? 'bg-secondary/10' : 'bg-accent/10'} p-4 rounded-xl shrink-0`}>
+                    <Icon name={step.icon} className={i % 3 === 0 ? 'text-primary' : i % 3 === 1 ? 'text-secondary' : 'text-accent'} size={28} />
+                  </div>
                   <div className="flex items-center gap-4 flex-1">
-                    <div className={`text-3xl font-bold text-${step.color}/30`}>{index + 1}</div>
+                    <div className={`text-3xl font-bold ${i % 3 === 0 ? 'text-primary/30' : i % 3 === 1 ? 'text-secondary/30' : 'text-accent/30'}`}>{i + 1}</div>
                     <p className="text-lg font-medium">{step.title}</p>
                   </div>
                 </CardContent>
               </Card>
             ))}
           </div>
-          <Card className="mt-12 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 border-2 border-primary/20">
-            <CardContent className="p-8 text-center">
-              <p className="text-xl font-semibold">
-                <span className="text-primary">Прозрачность</span>, <span className="text-secondary">цифры</span> и{' '}
-                <span className="text-accent">ответственность за результат</span> — базовые принципы моей работы
-              </p>
-            </CardContent>
-          </Card>
         </div>
       </section>
 
+      {/* Экран 8 — Сравнение с агентствами */}
+      <section className="py-20 px-4 bg-gradient-to-b from-purple-50/50 to-white">
+        <div className="container mx-auto max-w-5xl">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">Сравните <span className="text-primary">подходы</span></h2>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr>
+                  <th className="p-4 text-left bg-gradient-to-r from-primary to-secondary text-white rounded-tl-xl font-bold text-lg">Работа со мной</th>
+                  <th className="p-4 text-left bg-gray-200 text-gray-600 rounded-tr-xl font-bold text-lg">Обычные агентства</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['Глубокое вовлечение, работа лично со мной', 'Потоковые услуги, «потерянный контроль»'],
+                  ['Всё объясняю на языке собственника', 'Только рекламный жаргон'],
+                  ['Отчётность и проверка на каждом этапе', 'Шаблонные отчёты, не видно настоящих результатов'],
+                  ['Адаптация под ваш бизнес, а не «для всех»', 'Шаблонные решения'],
+                ].map(([mine, theirs], i) => (
+                  <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                    <td className="p-4 border-b border-gray-100">
+                      <div className="flex items-start gap-2">
+                        <Icon name="Check" className="text-primary mt-1 shrink-0" size={18} />
+                        <span className="font-medium">{mine}</span>
+                      </div>
+                    </td>
+                    <td className="p-4 border-b border-gray-100 text-muted-foreground">
+                      <div className="flex items-start gap-2">
+                        <Icon name="X" className="text-gray-400 mt-1 shrink-0" size={18} />
+                        <span>{theirs}</span>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Экран 9 — Гарантии */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">Гарантии и <span className="text-primary">честные условия</span></h2>
+          <div className="space-y-4">
+            {[
+              { icon: 'BarChart3', text: 'Фиксация стартовых показателей, контроль метрик и результатов' },
+              { icon: 'Shield', text: 'Если через месяц не видите улучшений — продлеваю работу бесплатно или возврат аванса' },
+              { icon: 'CreditCard', text: 'Оплата — по этапам, согласовывается индивидуально' },
+            ].map((item, i) => (
+              <Card key={i} className="border-2 border-primary/20 hover:shadow-xl transition-all">
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className="bg-primary/10 p-3 rounded-xl shrink-0">
+                    <Icon name={item.icon} className="text-primary" size={28} />
+                  </div>
+                  <p className="text-lg font-medium">{item.text}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Экран 10 — Кейсы */}
       <section id="cases" className="py-20 px-4 bg-gradient-to-b from-white to-purple-50/50">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">Избранные <span className="text-primary">кейсы</span></h2>
-          <p className="text-center text-muted-foreground text-lg mb-12">Исходная задача • Принятые решения • Конкретные цифры</p>
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-4">Примеры <span className="text-primary">кейсов</span> и результатов</h2>
+          <p className="text-center text-muted-foreground text-lg mb-12">Реальные проекты с конкретными цифрами</p>
           <div className="grid md:grid-cols-2 gap-6">
             {cases.map((c) => (<CaseCard key={c.id} caseData={c} />))}
           </div>
         </div>
       </section>
 
-      <section id="expertise" className="py-20 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">Работаю с рынком и <span className="text-primary">делюсь опытом</span></h2>
-          <p className="text-center text-muted-foreground text-lg mb-12">Спикер и модератор отраслевых мероприятий</p>
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="border-2 hover:shadow-xl transition-all">
-              <CardHeader>
-                <div className="bg-primary/10 p-4 rounded-xl w-fit mb-4"><Icon name="Mic" className="text-primary" size={32} /></div>
-                <CardTitle>Спикер ЭкоГородЭкспо</CardTitle>
-              </CardHeader>
-              <CardContent><p className="text-muted-foreground">Выступления о маркетинге и продвижении экологических брендов</p></CardContent>
+      {/* Экран 11 — Отзывы */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">Отзывы <span className="text-primary">клиентов</span></h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card className="border-2 bg-gradient-to-br from-primary/5 to-secondary/5">
+              <CardContent className="p-8">
+                <Icon name="Quote" className="text-primary mb-4" size={36} />
+                <p className="text-lg italic mb-4 leading-relaxed">«Я впервые понял, как работает мой маркетинг — не просто цифры, а понятные выводы и быстрые решения.»</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Icon name="User" className="text-primary" size={20} />
+                  </div>
+                  <div>
+                    <p className="font-semibold">Клиент</p>
+                    <p className="text-sm text-muted-foreground">Владелец интернет-магазина</p>
+                  </div>
+                </div>
+              </CardContent>
             </Card>
-            <Card className="border-2 hover:shadow-xl transition-all">
-              <CardHeader>
-                <div className="bg-accent/10 p-4 rounded-xl w-fit mb-4"><Icon name="Users" className="text-accent" size={32} /></div>
-                <CardTitle>Модератор конференций</CardTitle>
-              </CardHeader>
-              <CardContent><p className="text-muted-foreground">Международная отраслевая конференция по развитию органических брендов</p></CardContent>
-            </Card>
-            <Card className="border-2 hover:shadow-xl transition-all">
-              <CardHeader>
-                <div className="bg-secondary/10 p-4 rounded-xl w-fit mb-4"><Icon name="Award" className="text-secondary" size={32} /></div>
-                <CardTitle>Директор по маркетингу</CardTitle>
-              </CardHeader>
-              <CardContent><p className="text-muted-foreground">GreenExpo 2025 — крупнейшая выставка экологических продуктов</p></CardContent>
+            <Card className="border-2 bg-gradient-to-br from-accent/5 to-primary/5">
+              <CardContent className="p-8">
+                <Icon name="Quote" className="text-accent mb-4" size={36} />
+                <p className="text-lg italic mb-4 leading-relaxed">«Бюджет на рекламу перестал быть туманом. Каждый рубль теперь — это возврат и рост.»</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
+                    <Icon name="User" className="text-accent" size={20} />
+                  </div>
+                  <div>
+                    <p className="font-semibold">Клиент</p>
+                    <p className="text-sm text-muted-foreground">Руководитель онлайн-школы</p>
+                  </div>
+                </div>
+              </CardContent>
             </Card>
           </div>
-          <Card className="mt-12 bg-gradient-to-r from-primary/10 to-accent/10 border-2">
-            <CardContent className="p-8 text-center">
-              <Icon name="Quote" className="text-primary mx-auto mb-4" size={48} />
-              <p className="text-xl font-medium italic mb-4">"Маркетинг — это не магия и не искусство. Это инженерная система, где каждое решение должно быть обосновано цифрами и приводить к измеримому результату"</p>
-              <p className="text-muted-foreground">— Константин Пожидаев</p>
+        </div>
+      </section>
+
+      {/* Экран 12 — Квиз */}
+      <section id="quiz" className="py-20 px-4 bg-gradient-to-b from-purple-50/50 to-white">
+        <div className="container mx-auto max-w-3xl">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-4">Пройдите <span className="text-primary">быстрый разбор</span></h2>
+          <p className="text-center text-muted-foreground text-lg mb-8">Ответьте на несколько вопросов — и получите индивидуальный разбор маркетинга вашего бизнеса</p>
+          <QuizSection />
+        </div>
+      </section>
+
+      {/* Экран 13 — Бонусы */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">Бонусы — <span className="text-accent">почему именно сейчас</span></h2>
+          <div className="space-y-4">
+            {[
+              { icon: 'Gift', text: 'Бесплатная экспресс-диагностика одного рекламного канала для всех, кто проходит квиз' },
+              { icon: 'FileDown', text: 'Чек-лист «Источники трафика в России в 2026» — сразу после консультации' },
+              { icon: 'Star', text: 'Фиксация места на мою личную работу для вас' },
+            ].map((item, i) => (
+              <Card key={i} className="border-2 border-accent/20 hover:border-accent/50 hover:shadow-xl transition-all">
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className="bg-accent/10 p-3 rounded-xl shrink-0">
+                    <Icon name={item.icon} className="text-accent" size={28} />
+                  </div>
+                  <p className="text-lg font-medium">{item.text}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Экран 14 — Ограничения */}
+      <section className="py-20 px-4 bg-gradient-to-b from-white to-purple-50/50">
+        <div className="container mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl md:text-5xl font-bold mb-12">Важные <span className="text-primary">условия</span></h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="border-2 text-center p-6 hover:shadow-xl transition-all">
+              <div className="text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-3">3</div>
+              <p className="font-semibold mb-1">клиента одновременно</p>
+              <p className="text-sm text-muted-foreground">Одновременно беру не более 3 клиентов на сопровождение</p>
+            </Card>
+            <Card className="border-2 text-center p-6 hover:shadow-xl transition-all">
+              <div className="text-5xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent mb-3">2</div>
+              <p className="font-semibold mb-1">месяца минимум</p>
+              <p className="text-sm text-muted-foreground">Минимальный срок работы для достижения эффекта</p>
+            </Card>
+            <Card className="border-2 text-center p-6 hover:shadow-xl transition-all">
+              <div className="text-5xl font-bold bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent mb-3">
+                <Icon name="Handshake" className="mx-auto" size={48} />
+              </div>
+              <p className="font-semibold mb-1">Гибкая оплата</p>
+              <p className="text-sm text-muted-foreground">Поэтапно или по результату — обсуждается индивидуально</p>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Экран 15 — Призыв к действию */}
+      <section id="contact" className="py-20 px-4">
+        <div className="container mx-auto max-w-4xl text-center">
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">
+            Готовы превратить маркетинг из хаоса в{' '}
+            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">системный рост?</span>
+          </h2>
+          <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+            Оставьте заявку на разбор — и за 30 минут узнаете, где ваши главные точки роста и потери.
+          </p>
+          <Card className="max-w-md mx-auto border-2 border-primary/30 shadow-xl">
+            <CardContent className="p-8">
+              <LeadForm />
             </CardContent>
           </Card>
         </div>
       </section>
 
-      <section id="contact" className="py-20 px-4 bg-gradient-to-b from-purple-50/50 to-white">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Если вам нужен маркетинг, который можно{' '}
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">объяснить цифрами</span>
-            {' '}— мы сработаемся
-          </h2>
-          <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-            Я не беру все проекты подряд и не продаю универсальные решения.<br />
-            Мне важно понимать бизнес, задачи и реальную цель роста.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" onClick={() => scrollToSection('cases')} className="text-lg px-8 bg-gradient-to-r from-primary to-secondary hover:opacity-90">
-              <Icon name="Briefcase" className="mr-2" size={20} />Посмотреть кейсы
-            </Button>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button size="lg" variant="outline" className="text-lg px-8 border-2">
-                  <Icon name="Send" className="mr-2" size={20} />Связаться со мной
+      {/* Экран 16 — Обо мне */}
+      <section id="about-me" className="py-20 px-4 bg-gradient-to-b from-purple-50/50 to-white">
+        <div className="container mx-auto max-w-5xl">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">Немного <span className="text-primary">обо мне</span></h2>
+          <div className="space-y-4 max-w-3xl mx-auto mb-12">
+            {[
+              { icon: 'Calendar', text: 'В маркетинге с 2014 года' },
+              { icon: 'Award', text: 'Сертифицированный специалист Яндекс Метрики и Яндекс Директ' },
+              { icon: 'BookOpen', text: 'Строю маркетинговые процессы по методологии Антона Петроченкова «Системный лидген»' },
+              { icon: 'Bot', text: 'Сертифицированный специалист сервиса автоворонок и чат-ботов в мессенджерах Bothelp' },
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-4 p-4">
+                <div className="bg-primary/10 p-2 rounded-lg shrink-0">
+                  <Icon name={item.icon} className="text-primary" size={20} />
+                </div>
+                <p className="text-lg">{item.text}</p>
+              </div>
+            ))}
+            <div className="flex items-start gap-4 p-4">
+              <div className="bg-accent/10 p-2 rounded-lg shrink-0">
+                <Icon name="Mic" className="text-accent" size={20} />
+              </div>
+              <p className="text-lg">
+                Постоянный партнёр выставки{' '}
+                <a href="https://greenexpo.pro/" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:no-underline">GreenExpo</a>, спикер и модератор{' '}
+                <a href="https://greenexpo.pro/conference" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:no-underline">конференции по развитию и продвижению экологичных брендов</a>
+              </p>
+            </div>
+            <div className="flex items-start gap-4 p-4">
+              <div className="bg-secondary/10 p-2 rounded-lg shrink-0">
+                <Icon name="GraduationCap" className="text-secondary" size={20} />
+              </div>
+              <p className="text-lg">Автор онлайн-курса «Таргет ВК с нуля»</p>
+            </div>
+          </div>
+
+          <div className="relative">
+            <h3 className="text-2xl font-bold text-center mb-6">Мои сертификаты</h3>
+            <div className="relative overflow-hidden">
+              <div ref={carouselRef} className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                {certImages.map((cert, i) => (
+                  <div key={i} className="snap-center shrink-0 w-[300px] md:w-[400px]">
+                    <img
+                      src={cert.src}
+                      alt={cert.alt}
+                      className="w-full h-auto rounded-xl border-2 shadow-lg hover:shadow-xl transition-shadow"
+                      loading="lazy"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="flex justify-center gap-3 mt-4">
+                <Button variant="outline" size="icon" className="rounded-full" onClick={() => scrollCert(-1)} disabled={certIdx === 0}>
+                  <Icon name="ChevronLeft" size={20} />
                 </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Обсудить проект</DialogTitle>
-                  <DialogDescription>Оставьте контакты — свяжусь в течение 24 часов</DialogDescription>
-                </DialogHeader>
-                <LeadForm />
-              </DialogContent>
-            </Dialog>
+                {certImages.map((_, i) => (
+                  <div key={i} className={`w-2 h-2 rounded-full mt-2 ${i === certIdx ? 'bg-primary' : 'bg-gray-300'}`} />
+                ))}
+                <Button variant="outline" size="icon" className="rounded-full" onClick={() => scrollCert(1)} disabled={certIdx === certImages.length - 1}>
+                  <Icon name="ChevronRight" size={20} />
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* Подвал */}
       <footer className="py-12 px-4 border-t bg-muted/30">
         <div className="container mx-auto max-w-6xl">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
               <h3 className="font-bold text-xl mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Константин Пожидаев</h3>
-              <p className="text-muted-foreground">Интернет-маркетолог с 10+ летним опытом в digital</p>
+              <p className="text-muted-foreground">Системный маркетинг для руководителей и собственников бизнеса</p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Контакты</h4>

@@ -18,6 +18,24 @@
       "expectedStatus": 200
     },
     {
+      "name": "POST quiz lead",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "name": "Quiz User",
+        "email": "quiz@example.com",
+        "phone": "+7 999 000 0000",
+        "quiz": {
+          "role": "owner",
+          "industry": "ecommerce",
+          "budget": "200 тыс. руб.",
+          "ordersPerMonth": "51-100",
+          "mainGoal": "sales"
+        }
+      },
+      "expectedStatus": 200
+    },
+    {
       "name": "POST without name",
       "method": "POST",
       "path": "/",
