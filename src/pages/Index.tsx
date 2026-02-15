@@ -21,6 +21,7 @@ const certImages: CertImage[] = [
   { src: 'https://cdn.poehali.dev/projects/56b091ad-15fa-4b9f-b598-f9ae88a1ec56/bucket/62a8aac4-538f-4954-89f6-594ac7b0c61c.png', alt: 'Сертификат партнера BotHelp' },
   { src: 'https://cdn.poehali.dev/projects/56b091ad-15fa-4b9f-b598-f9ae88a1ec56/bucket/926c8384-0b49-46e6-96af-b67708947155.jpg', alt: 'Диплом Skill Cup - Как делать интересные онлайн-курсы' },
   { src: 'https://cdn.poehali.dev/projects/56b091ad-15fa-4b9f-b598-f9ae88a1ec56/bucket/6b3c890b-aa2b-4491-81e9-94b459c3184a.jpg', alt: 'Диплом Skill Cup - Сильный текст в соцсетях' },
+  { src: 'https://cdn.poehali.dev/projects/56b091ad-15fa-4b9f-b598-f9ae88a1ec56/bucket/6290dba6-a6ae-450d-b1c8-ab30069af000.jpg', alt: 'Диплом Skill Cup - Маркетинг по полочкам' },
 ];
 
 const Index = () => {
@@ -494,7 +495,18 @@ const Index = () => {
       <section id="about-me" className="py-20 px-4 bg-gradient-to-b from-purple-50/50 to-white">
         <div className="container mx-auto max-w-5xl">
           <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">Немного <span className="text-primary">обо мне</span></h2>
-          <div className="space-y-4 max-w-3xl mx-auto mb-12">
+          
+          <div className="flex flex-col md:flex-row gap-8 items-center mb-12">
+            <div className="relative shrink-0">
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full blur-sm opacity-75"></div>
+              <img 
+                src="https://cdn.poehali.dev/projects/56b091ad-15fa-4b9f-b598-f9ae88a1ec56/bucket/91e80fbe-d0c6-4b6b-8183-f165fd8e64d7.jpg" 
+                alt="Константин Пожидаев" 
+                className="relative w-64 h-64 md:w-80 md:h-80 rounded-full object-cover border-4 border-white shadow-2xl"
+              />
+            </div>
+            
+            <div className="space-y-4 flex-1">
             {[
               { icon: 'Calendar', text: 'В маркетинге с 2014 года' },
               { icon: 'Award', text: 'Сертифицированный специалист Яндекс Метрики и Яндекс Директ' },
@@ -523,6 +535,7 @@ const Index = () => {
                 <Icon name="GraduationCap" className="text-secondary" size={20} />
               </div>
               <p className="text-lg">Автор онлайн-курса «Таргет ВК с нуля»</p>
+            </div>
             </div>
           </div>
 
