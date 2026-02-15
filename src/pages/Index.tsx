@@ -602,7 +602,7 @@ const Index = () => {
             </div>
           </div>
           <div className="pt-8 border-t text-center text-muted-foreground flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>&copy; 2025 Константин Пожидаев. Все права защищены.</p>
+            <p>&copy; 2025 ИП Пожидаев Константин Романович. ИНН: 481802450390.</p>
             <Link to="/privacy" className="hover:text-primary transition-colors underline">Политика конфиденциальности</Link>
           </div>
         </div>
