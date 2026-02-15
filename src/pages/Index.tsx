@@ -10,12 +10,18 @@ import CaseCard from '@/components/CaseCard';
 import QuizSection from '@/components/QuizSection';
 import { cases } from '@/data/cases';
 
-const YADISK_PUBLIC_KEY = 'https://disk.yandex.ru/d/okd1Fu24BYjvWg';
-
 interface CertImage {
   src: string;
   alt: string;
 }
+
+const certImages: CertImage[] = [
+  { src: 'https://cdn.poehali.dev/projects/56b091ad-15fa-4b9f-b598-f9ae88a1ec56/bucket/a1dd7229-67eb-4a0d-bf86-3fc6b67845cf.png', alt: 'Сертификат специалиста по Яндекс.Директу' },
+  { src: 'https://cdn.poehali.dev/projects/56b091ad-15fa-4b9f-b598-f9ae88a1ec56/bucket/a867a374-b9be-4727-863a-dabbcfe209eb.JPG', alt: 'Сертификат специалиста по Яндекс.Метрике' },
+  { src: 'https://cdn.poehali.dev/projects/56b091ad-15fa-4b9f-b598-f9ae88a1ec56/bucket/62a8aac4-538f-4954-89f6-594ac7b0c61c.png', alt: 'Сертификат партнера BotHelp' },
+  { src: 'https://cdn.poehali.dev/projects/56b091ad-15fa-4b9f-b598-f9ae88a1ec56/bucket/926c8384-0b49-46e6-96af-b67708947155.jpg', alt: 'Диплом Skill Cup - Как делать интересные онлайн-курсы' },
+  { src: 'https://cdn.poehali.dev/projects/56b091ad-15fa-4b9f-b598-f9ae88a1ec56/bucket/6b3c890b-aa2b-4491-81e9-94b459c3184a.jpg', alt: 'Диплом Skill Cup - Сильный текст в соцсетях' },
+];
 
 const Index = () => {
   const scrollToSection = (id: string) => {
@@ -24,28 +30,6 @@ const Index = () => {
 
   const carouselRef = useRef<HTMLDivElement>(null);
   const [certIdx, setCertIdx] = useState(0);
-  const [certImages, setCertImages] = useState<CertImage[]>([]);
-
-  useEffect(() => {
-    const fetchCerts = async () => {
-      try {
-        const url = `https://cloud-api.yandex.net/v1/disk/public/resources?public_key=${encodeURIComponent(YADISK_PUBLIC_KEY)}&limit=20`;
-        const res = await fetch(url);
-        const data = await res.json();
-        const items = data?._embedded?.items || [];
-        const images: CertImage[] = items
-          .filter((item: { media_type?: string; preview?: string }) => item.media_type === 'image' && item.preview)
-          .map((item: { preview?: string }, i: number) => {
-            const previewUrl = (item.preview || '').replace('size=S', 'size=XL');
-            return { src: previewUrl, alt: `Сертификат ${i + 1}` };
-          });
-        setCertImages(images);
-      } catch {
-        // silent
-      }
-    };
-    fetchCerts();
-  }, []);
 
   const scrollCert = (dir: number) => {
     const next = Math.max(0, Math.min(certImages.length - 1, certIdx + dir));
