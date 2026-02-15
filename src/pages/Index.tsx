@@ -29,8 +29,21 @@ const Index = () => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const carouselRef = useRef<HTMLDivElement>(null);
   const [certIdx, setCertIdx] = useState(0);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const scrollCert = (dir: number) => {
     const next = Math.max(0, Math.min(certImages.length - 1, certIdx + dir));
@@ -46,9 +59,9 @@ const Index = () => {
       <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-lg z-50 border-b border-gray-100">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <button onClick={scrollToTop} className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent hover:opacity-80 transition-opacity">
               Константин Пожидаев
-            </div>
+            </button>
             <div className="hidden md:flex gap-6">
               <button onClick={() => scrollToSection('results')} className="text-sm font-medium hover:text-primary transition-colors">Результаты</button>
               <button onClick={() => scrollToSection('approach')} className="text-sm font-medium hover:text-primary transition-colors">Подход</button>
@@ -609,6 +622,16 @@ const Index = () => {
       </footer>
 
       <TelegramButton />
+
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 z-50 p-4 bg-gradient-to-r from-primary to-secondary text-white rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 group"
+          aria-label="Наверх"
+        >
+          <Icon name="ArrowUp" size={24} className="group-hover:animate-bounce" />
+        </button>
+      )}
     </div>
   );
 };
