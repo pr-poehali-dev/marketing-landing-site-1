@@ -92,10 +92,17 @@ const LeadForm = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg font-medium text-sm text-white transition-opacity hover:opacity-90"
-            style={{ backgroundColor: '#0077FF' }}
+            style={{ background: 'linear-gradient(135deg, #4F8EF7 0%, #7B4FD8 100%)' }}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm6 8h-2.11l-1.487 5.818L12.5 8h-1.8l-1.9 5.818L7.11 8H5l2.6 8h2l1.9-5.6 1.9 5.6h2L18 8z"/>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="12" fill="url(#maxGrad)"/>
+              <defs>
+                <linearGradient id="maxGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#4F8EF7"/>
+                  <stop offset="100%" stopColor="#7B4FD8"/>
+                </linearGradient>
+              </defs>
+              <path d="M12 5.5C8.41 5.5 5.5 8.41 5.5 12C5.5 15.59 8.41 18.5 12 18.5C15.59 18.5 18.5 15.59 18.5 12C18.5 8.41 15.59 5.5 12 5.5ZM12 16.5C10.07 16.5 8.34 15.55 7.28 14.08L9.5 12.5L11 14L13.5 10.5L16.72 14.08C15.66 15.55 13.93 16.5 12 16.5ZM16.72 9.92L14.5 11.5L13 10L10.5 13.5L7.28 9.92C8.34 8.45 10.07 7.5 12 7.5C13.93 7.5 15.66 8.45 16.72 9.92Z" fill="white"/>
             </svg>
             MAX
           </a>
