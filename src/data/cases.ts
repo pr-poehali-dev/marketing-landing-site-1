@@ -20,6 +20,7 @@ export interface CaseData {
     stats: string[];
   };
   images?: string[];
+  pageLink?: string;
 }
 
 export const cases: CaseData[] = [
@@ -118,6 +119,7 @@ export const cases: CaseData[] = [
     ]
   },
   {
+    pageLink: '/cases/online-school-hobby',
     id: 'hobby-school',
     title: 'Онлайн-школа хобби',
     subtitle: 'Трафик после блокировки Facebook',

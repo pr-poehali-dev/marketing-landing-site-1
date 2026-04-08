@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
@@ -44,6 +45,18 @@ const CaseCard = ({ caseData }: CaseCardProps) => {
               <p className="text-sm text-muted-foreground">{caseData.stat2Label}</p>
             </div>
           </div>
+          {caseData.pageLink && (
+            <div className="pt-2">
+              <Link
+                to={caseData.pageLink}
+                onClick={e => e.stopPropagation()}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+              >
+                Читать кейс целиком
+                <Icon name="ArrowRight" size={14} />
+              </Link>
+            </div>
+          )}
         </CardContent>
       </Card>
 
