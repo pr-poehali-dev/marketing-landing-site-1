@@ -19,7 +19,7 @@ const OnlineSchoolHobby = () => {
             Константин Пожидаев
           </Link>
           <div className="flex items-center gap-4">
-            <Link to="/#cases" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
+            <Link to="/cases" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
               <Icon name="ArrowLeft" size={16} />
               Все кейсы
             </Link>
