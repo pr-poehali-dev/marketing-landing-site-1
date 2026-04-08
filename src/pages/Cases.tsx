@@ -1,0 +1,130 @@
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import Icon from '@/components/ui/icon';
+import LeadForm from '@/components/LeadForm';
+
+const casesPreviews = [
+  {
+    id: 'online-school-hobby',
+    image: 'https://cdn.poehali.dev/files/859a956e-5e3f-4bce-9782-d28e4d63f691.jpg',
+    tag: 'Онлайн-образование',
+    title: 'Перезапустил маркетинг онлайн-школы после полной потери трафика',
+    subtitle: 'Когда Facebook заблокировали, основной канал трафика исчез за одну ночь. За 2,5 года выстроил многоканальную систему с бюджетом 6 млн ₽/мес, провёл 29 марафонов и удержал ДРР не выше 30%.',
+    stats: ['3 000+ учеников', '6+ млн ₽/мес', 'ДРР < 30%'],
+    link: '/cases/online-school-hobby',
+  },
+];
+
+const Cases = () => {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-white via-purple-50/30 to-white">
+      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-lg z-50 border-b border-gray-100">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent hover:opacity-80 transition-opacity">
+            Константин Пожидаев
+          </Link>
+          <div className="flex items-center gap-4">
+            <Link to="/" className="text-sm font-medium hover:text-primary transition-colors">На главную</Link>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">Получить аудит</Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Бесплатный аудит</DialogTitle>
+                  <DialogDescription>Оставьте контакты — свяжусь в течение 24 часов</DialogDescription>
+                </DialogHeader>
+                <LeadForm />
+              </DialogContent>
+            </Dialog>
+          </div>
+        </div>
+      </nav>
+
+      <section className="pt-32 pb-20 px-4">
+        <div className="container mx-auto max-w-5xl">
+          <div className="mb-12">
+            <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">Портфолио</span>
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mt-6 mb-4 leading-tight">Кейсы</h1>
+            <p className="text-lg text-muted-foreground max-w-2xl">Реальные результаты — с цифрами, решениями и инструментами. Без шаблонных историй успеха.</p>
+          </div>
+
+          <div className="space-y-8">
+            {casesPreviews.map((c) => (
+              <div key={c.id} className="group rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow bg-white">
+                <div className="grid grid-cols-1 md:grid-cols-2">
+                  <div className="relative overflow-hidden h-64 md:h-auto">
+                    <img
+                      src={c.image}
+                      alt={c.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                    <span className="absolute top-4 left-4 px-3 py-1 bg-white/90 text-primary rounded-full text-xs font-medium">
+                      {c.tag}
+                    </span>
+                  </div>
+                  <div className="p-8 flex flex-col justify-between">
+                    <div>
+                      <h2 className="text-xl md:text-2xl font-bold text-gray-900 leading-tight mb-3">{c.title}</h2>
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-6">{c.subtitle}</p>
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {c.stats.map((s) => (
+                          <span key={s} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">{s}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <Link to={c.link}>
+                        <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 w-full sm:w-auto">
+                          <Icon name="BookOpen" size={16} className="mr-2" />
+                          Читать целиком
+                        </Button>
+                      </Link>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" className="border-primary text-primary hover:bg-primary/5 w-full sm:w-auto">
+                            Обсудить задачу
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-md">
+                          <DialogHeader>
+                            <DialogTitle>Обсудим вашу задачу</DialogTitle>
+                            <DialogDescription>Расскажите о проекте — найдём решение вместе</DialogDescription>
+                          </DialogHeader>
+                          <LeadForm />
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-16 rounded-2xl bg-gradient-to-r from-primary/10 via-purple-50 to-accent/10 border border-primary/10 p-8 text-center">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">Хотите похожий результат?</h2>
+            <p className="text-muted-foreground mb-6">Расскажите о своём проекте — разберём задачу и предложим стратегию</p>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size="lg" className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">
+                  Обсудить мой проект
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Обсудим вашу задачу</DialogTitle>
+                  <DialogDescription>Расскажите о проекте — найдём решение вместе</DialogDescription>
+                </DialogHeader>
+                <LeadForm />
+              </DialogContent>
+            </Dialog>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Cases;
