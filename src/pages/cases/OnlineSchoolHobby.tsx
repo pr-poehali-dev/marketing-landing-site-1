@@ -245,7 +245,7 @@ const OnlineSchoolHobby = () => {
             <div className="text-sm text-muted-foreground mb-3 font-medium">Аналитические дашборды и отчёты</div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="rounded-xl overflow-hidden border border-gray-100 shadow-sm">
-                <img src="https://cdn.poehali.dev/files/33124fc0-d3a7-4a95-90da-b123d9e23dff.png" alt="Таблица аналитики Яндекс.Директ по источникам трафика" className="w-full h-auto" />
+                <img src="https://cdn.poehali.dev/files/bde2856a-d5d8-45e3-b5ad-aa48b8de45e5.png" alt="Таблица аналитики Яндекс.Директ по источникам трафика" className="w-full h-auto" />
                 <div className="px-4 py-2 bg-gray-50 text-xs text-gray-500">Вебинарная воронка — таблица анализа динамики по источникам (Яндекс.Директ)</div>
               </div>
               <div className="rounded-xl overflow-hidden border border-gray-100 shadow-sm">
@@ -253,8 +253,12 @@ const OnlineSchoolHobby = () => {
                 <div className="px-4 py-2 bg-gray-50 text-xs text-gray-500">Итоговая таблица динамики запусков — все показатели воронки по месяцам</div>
               </div>
               <div className="md:col-span-2 rounded-xl overflow-hidden border border-gray-100 shadow-sm">
-                <img src="https://cdn.poehali.dev/files/4d1cde5b-fa22-475c-84e1-a0244d18024c.png" alt="Графики динамики ключевых показателей" className="w-full h-auto" />
+                <img src="https://cdn.poehali.dev/files/d04ccc79-7a28-4b2e-8b0c-17bc54b781f6.png" alt="Графики динамики ключевых показателей" className="w-full h-auto" />
                 <div className="px-4 py-2 bg-gray-50 text-xs text-gray-500">Визуализация динамики ключевых показателей продаж — по всем потокам марафонов</div>
+              </div>
+              <div className="md:col-span-2 rounded-xl overflow-hidden border border-gray-100 shadow-sm">
+                <img src="https://cdn.poehali.dev/files/962fc1be-0f80-4e81-a0c4-bcd25ce6b847.png" alt="Визуализация карты пути клиента в Miro" className="w-full h-auto" />
+                <div className="px-4 py-2 bg-gray-50 text-xs text-gray-500">Визуализация карты пути клиента в Miro</div>
               </div>
             </div>
           </div>
