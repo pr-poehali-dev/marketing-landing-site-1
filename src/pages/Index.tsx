@@ -193,6 +193,85 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Экран 16 — Обо мне */}
+      <section id="about-me" className="py-20 px-4 bg-gradient-to-b from-purple-50/50 to-white">
+        <div className="container mx-auto max-w-5xl">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">Немного <span className="text-primary">обо мне</span></h2>
+          
+          <div className="flex flex-col md:flex-row gap-8 items-center mb-12">
+            <div className="relative shrink-0 group cursor-pointer">
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full blur-sm opacity-75 group-hover:opacity-100 group-hover:blur-md transition-all duration-500"></div>
+              <img 
+                src="https://cdn.poehali.dev/projects/56b091ad-15fa-4b9f-b598-f9ae88a1ec56/bucket/91e80fbe-d0c6-4b6b-8183-f165fd8e64d7.jpg" 
+                alt="Константин Пожидаев" 
+                className="relative w-64 h-64 md:w-80 md:h-80 rounded-full object-cover border-4 border-white shadow-2xl group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            
+            <div className="space-y-4 flex-1">
+            {[
+              { icon: 'Calendar', text: 'В маркетинге с 2014 года' },
+              { icon: 'Award', text: 'Сертифицированный специалист Яндекс Метрики и Яндекс Директ' },
+              { icon: 'BookOpen', text: 'Строю маркетинговые процессы по методологии Антона Петроченкова «Системный лидген»' },
+              { icon: 'Bot', text: 'Сертифицированный специалист сервиса автоворонок и чат-ботов в мессенджерах Bothelp' },
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-4 p-4">
+                <div className="bg-primary/10 p-2 rounded-lg shrink-0">
+                  <Icon name={item.icon} className="text-primary" size={20} />
+                </div>
+                <p className="text-lg">{item.text}</p>
+              </div>
+            ))}
+            <div className="flex items-start gap-4 p-4">
+              <div className="bg-accent/10 p-2 rounded-lg shrink-0">
+                <Icon name="Mic" className="text-accent" size={20} />
+              </div>
+              <p className="text-lg">
+                Постоянный партнёр выставки{' '}
+                <a href="https://greenexpo.pro/" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:no-underline">GreenExpo</a>, спикер и модератор{' '}
+                <a href="https://greenexpo.pro/conference" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:no-underline">конференции по развитию и продвижению экологичных брендов</a>
+              </p>
+            </div>
+            <div className="flex items-start gap-4 p-4">
+              <div className="bg-secondary/10 p-2 rounded-lg shrink-0">
+                <Icon name="GraduationCap" className="text-secondary" size={20} />
+              </div>
+              <p className="text-lg">Автор онлайн-курса «Таргет ВК с нуля»</p>
+            </div>
+            </div>
+          </div>
+
+          <div className="relative">
+            <h3 className="text-2xl font-bold text-center mb-6">Мои сертификаты</h3>
+            <div className="relative overflow-hidden">
+              <div ref={carouselRef} className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                {certImages.map((cert, i) => (
+                  <div key={i} className="snap-center shrink-0 w-[300px] md:w-[400px]">
+                    <img
+                      src={cert.src}
+                      alt={cert.alt}
+                      className="w-full h-auto rounded-xl border-2 shadow-lg hover:shadow-xl transition-shadow"
+                      loading="lazy"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="flex justify-center gap-3 mt-4">
+                <Button variant="outline" size="icon" className="rounded-full" onClick={() => scrollCert(-1)} disabled={certIdx === 0}>
+                  <Icon name="ChevronLeft" size={20} />
+                </Button>
+                {certImages.map((_, i) => (
+                  <div key={i} className={`w-2 h-2 rounded-full mt-2 ${i === certIdx ? 'bg-primary' : 'bg-gray-300'}`} />
+                ))}
+                <Button variant="outline" size="icon" className="rounded-full" onClick={() => scrollCert(1)} disabled={certIdx === certImages.length - 1}>
+                  <Icon name="ChevronRight" size={20} />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Экран 3 — Рациональные и эмоциональные результаты */}
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-6xl">
@@ -535,85 +614,6 @@ const Index = () => {
               <LeadForm />
             </CardContent>
           </Card>
-        </div>
-      </section>
-
-      {/* Экран 16 — Обо мне */}
-      <section id="about-me" className="py-20 px-4 bg-gradient-to-b from-purple-50/50 to-white">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-3xl md:text-5xl font-bold text-center mb-12">Немного <span className="text-primary">обо мне</span></h2>
-          
-          <div className="flex flex-col md:flex-row gap-8 items-center mb-12">
-            <div className="relative shrink-0 group cursor-pointer">
-              <div className="absolute -inset-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full blur-sm opacity-75 group-hover:opacity-100 group-hover:blur-md transition-all duration-500"></div>
-              <img 
-                src="https://cdn.poehali.dev/projects/56b091ad-15fa-4b9f-b598-f9ae88a1ec56/bucket/91e80fbe-d0c6-4b6b-8183-f165fd8e64d7.jpg" 
-                alt="Константин Пожидаев" 
-                className="relative w-64 h-64 md:w-80 md:h-80 rounded-full object-cover border-4 border-white shadow-2xl group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-            
-            <div className="space-y-4 flex-1">
-            {[
-              { icon: 'Calendar', text: 'В маркетинге с 2014 года' },
-              { icon: 'Award', text: 'Сертифицированный специалист Яндекс Метрики и Яндекс Директ' },
-              { icon: 'BookOpen', text: 'Строю маркетинговые процессы по методологии Антона Петроченкова «Системный лидген»' },
-              { icon: 'Bot', text: 'Сертифицированный специалист сервиса автоворонок и чат-ботов в мессенджерах Bothelp' },
-            ].map((item, i) => (
-              <div key={i} className="flex items-start gap-4 p-4">
-                <div className="bg-primary/10 p-2 rounded-lg shrink-0">
-                  <Icon name={item.icon} className="text-primary" size={20} />
-                </div>
-                <p className="text-lg">{item.text}</p>
-              </div>
-            ))}
-            <div className="flex items-start gap-4 p-4">
-              <div className="bg-accent/10 p-2 rounded-lg shrink-0">
-                <Icon name="Mic" className="text-accent" size={20} />
-              </div>
-              <p className="text-lg">
-                Постоянный партнёр выставки{' '}
-                <a href="https://greenexpo.pro/" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:no-underline">GreenExpo</a>, спикер и модератор{' '}
-                <a href="https://greenexpo.pro/conference" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:no-underline">конференции по развитию и продвижению экологичных брендов</a>
-              </p>
-            </div>
-            <div className="flex items-start gap-4 p-4">
-              <div className="bg-secondary/10 p-2 rounded-lg shrink-0">
-                <Icon name="GraduationCap" className="text-secondary" size={20} />
-              </div>
-              <p className="text-lg">Автор онлайн-курса «Таргет ВК с нуля»</p>
-            </div>
-            </div>
-          </div>
-
-          <div className="relative">
-            <h3 className="text-2xl font-bold text-center mb-6">Мои сертификаты</h3>
-            <div className="relative overflow-hidden">
-              <div ref={carouselRef} className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                {certImages.map((cert, i) => (
-                  <div key={i} className="snap-center shrink-0 w-[300px] md:w-[400px]">
-                    <img
-                      src={cert.src}
-                      alt={cert.alt}
-                      className="w-full h-auto rounded-xl border-2 shadow-lg hover:shadow-xl transition-shadow"
-                      loading="lazy"
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="flex justify-center gap-3 mt-4">
-                <Button variant="outline" size="icon" className="rounded-full" onClick={() => scrollCert(-1)} disabled={certIdx === 0}>
-                  <Icon name="ChevronLeft" size={20} />
-                </Button>
-                {certImages.map((_, i) => (
-                  <div key={i} className={`w-2 h-2 rounded-full mt-2 ${i === certIdx ? 'bg-primary' : 'bg-gray-300'}`} />
-                ))}
-                <Button variant="outline" size="icon" className="rounded-full" onClick={() => scrollCert(1)} disabled={certIdx === certImages.length - 1}>
-                  <Icon name="ChevronRight" size={20} />
-                </Button>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
