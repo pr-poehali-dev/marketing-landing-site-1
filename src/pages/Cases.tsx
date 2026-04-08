@@ -14,6 +14,15 @@ const casesPreviews = [
     stats: ['3 000+ учеников', '6+ млн ₽/мес', 'ДРР < 30%'],
     link: '/cases/online-school-hobby',
   },
+  {
+    id: 'kodklass',
+    image: null,
+    tag: 'EdTech · Детская онлайн-школа программирования',
+    title: 'КодКласс: общая выручка школы выросла в 4 раза за 4 месяца',
+    subtitle: 'Один перформанс-канал, два таргетолога на входе, чёткая задача на масштаб. За 4 месяца нашли победную связку, перестроили команду и вывели выручку на уровень 10+ млн ₽/мес при ДРР 25–27%.',
+    stats: ['×4 рост выручки', 'ДРР 25–27%', '10+ млн ₽/мес'],
+    link: '/cases/kodklass',
+  },
 ];
 
 const Cases = () => {
@@ -55,11 +64,20 @@ const Cases = () => {
               <div key={c.id} className="group rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow bg-white">
                 <div className="grid grid-cols-1 md:grid-cols-2">
                   <div className="relative overflow-hidden h-64 md:h-auto">
-                    <img
-                      src={c.image}
-                      alt={c.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+                    {c.image ? (
+                      <img
+                        src={c.image}
+                        alt={c.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-blue-500 via-purple-500 to-secondary flex items-center justify-center min-h-[256px]">
+                        <div className="text-center text-white p-8">
+                          <div className="text-7xl font-black mb-2 opacity-90">×4</div>
+                          <div className="text-lg font-semibold opacity-80">рост выручки</div>
+                        </div>
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                     <span className="absolute top-4 left-4 px-3 py-1 bg-white/90 text-primary rounded-full text-xs font-medium">
                       {c.tag}

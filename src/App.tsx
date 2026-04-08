@@ -9,6 +9,7 @@ import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import OnlineSchoolHobby from "./pages/cases/OnlineSchoolHobby";
 import Cases from "./pages/Cases";
+import KodKlass from "./pages/cases/KodKlass";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/cases" element={<Cases />} />
           <Route path="/cases/online-school-hobby" element={<OnlineSchoolHobby />} />
+          <Route path="/cases/kodklass" element={<KodKlass />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
