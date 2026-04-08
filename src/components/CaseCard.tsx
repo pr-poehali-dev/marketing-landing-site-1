@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
@@ -11,12 +11,21 @@ interface CaseCardProps {
 
 const CaseCard = ({ caseData }: CaseCardProps) => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    if (caseData.pageLink) {
+      navigate(caseData.pageLink);
+    } else {
+      setOpen(true);
+    }
+  };
 
   return (
     <>
       <Card
         className="border-2 hover:shadow-2xl transition-all hover:scale-[1.02] group overflow-hidden cursor-pointer"
-        onClick={() => setOpen(true)}
+        onClick={handleCardClick}
       >
         <div className={`h-48 bg-gradient-to-br ${caseData.gradient} flex items-center justify-center group-hover:scale-105 transition-transform relative overflow-hidden`}>
           {caseData.image ? (

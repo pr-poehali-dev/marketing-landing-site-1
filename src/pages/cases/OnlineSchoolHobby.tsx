@@ -1,12 +1,43 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
 import LeadForm from '@/components/LeadForm';
 
+const SEO_TITLE = 'Кейс: маркетинг онлайн-школы хобби — 3000+ учеников, ДРР < 30% | Константин Пожидаев';
+const SEO_DESC = 'Как перезапустить трафик онлайн-школы после блокировки Facebook: Яндекс.Директ, ВКонтакте, Telegram, 29 марафонов, бюджет 6 млн ₽/мес, ДРР менее 30%. Кейс системного маркетолога Константина Пожидаева.';
+const SEO_IMAGE = 'https://cdn.poehali.dev/files/859a956e-5e3f-4bce-9782-d28e4d63f691.jpg';
+const SEO_URL = 'https://pozhidaev.ru/cases/online-school-hobby';
+
 const OnlineSchoolHobby = () => {
   const [formOpen, setFormOpen] = useState(false);
+
+  useEffect(() => {
+    document.title = SEO_TITLE;
+    const setMeta = (name: string, content: string, prop = false) => {
+      const attr = prop ? 'property' : 'name';
+      let el = document.querySelector(`meta[${attr}="${name}"]`);
+      if (!el) { el = document.createElement('meta'); el.setAttribute(attr, name); document.head.appendChild(el); }
+      el.setAttribute('content', content);
+    };
+    setMeta('description', SEO_DESC);
+    setMeta('keywords', 'маркетинг онлайн-школы, кейс Яндекс.Директ, трафик после Facebook, онлайн-школа хобби, системный маркетолог, Константин Пожидаев');
+    setMeta('robots', 'index, follow');
+    setMeta('og:title', SEO_TITLE, true);
+    setMeta('og:description', SEO_DESC, true);
+    setMeta('og:image', SEO_IMAGE, true);
+    setMeta('og:url', SEO_URL, true);
+    setMeta('og:type', 'article', true);
+    setMeta('twitter:card', 'summary_large_image');
+    setMeta('twitter:title', SEO_TITLE);
+    setMeta('twitter:description', SEO_DESC);
+    setMeta('twitter:image', SEO_IMAGE);
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) { canonical = document.createElement('link'); canonical.setAttribute('rel', 'canonical'); document.head.appendChild(canonical); }
+    canonical.setAttribute('href', SEO_URL);
+    return () => { document.title = 'Константин Пожидаев — системный маркетолог'; };
+  }, []);
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
