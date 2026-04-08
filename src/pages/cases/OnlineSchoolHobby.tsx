@@ -229,12 +229,14 @@ const OnlineSchoolHobby = () => {
           <div className="mt-12">
             <div className="text-sm text-muted-foreground mb-3 font-medium">Примеры рекламных креативов</div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {[1, 2, 3, 4].map(i => (
-                <div key={i} className="aspect-square rounded-xl bg-gradient-to-br from-purple-100 via-purple-50 to-orange-50 border border-gray-100 flex items-center justify-center">
-                  <div className="text-center">
-                    <Icon name="Image" size={28} className="text-gray-300 mx-auto mb-1" />
-                    <div className="text-xs text-gray-300">Креатив {i}</div>
-                  </div>
+              {[
+                { url: 'https://cdn.poehali.dev/files/859a956e-5e3f-4bce-9782-d28e4d63f691.jpg', alt: 'Как создать урожайный сад по системе НИСО' },
+                { url: 'https://cdn.poehali.dev/files/4446f96e-7783-4f8e-895e-9f6054d18c4f.png', alt: 'Садоводы! А вас я попрошу остаться!' },
+                { url: 'https://cdn.poehali.dev/files/49ae23de-e23c-4a6b-8afa-19f29d82a488.jpg', alt: 'Бесплатный онлайн-практикум по садоводству' },
+                { url: 'https://cdn.poehali.dev/files/3cc40496-9aeb-425e-8a7a-0e763a8fb623.png', alt: 'Рекламные объявления в Яндекс' },
+              ].map((creative, i) => (
+                <div key={i} className="aspect-square rounded-xl overflow-hidden border border-gray-100 shadow-sm">
+                  <img src={creative.url} alt={creative.alt} className="w-full h-full object-cover" />
                 </div>
               ))}
             </div>
