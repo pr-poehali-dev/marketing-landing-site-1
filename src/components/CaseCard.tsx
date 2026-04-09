@@ -16,6 +16,7 @@ const CaseCard = ({ caseData }: CaseCardProps) => {
   const handleCardClick = () => {
     if (caseData.pageLink) {
       navigate(caseData.pageLink);
+      window.scrollTo(0, 0);
     } else {
       setOpen(true);
     }
@@ -58,7 +59,7 @@ const CaseCard = ({ caseData }: CaseCardProps) => {
             <div className="pt-2">
               <Link
                 to={caseData.pageLink}
-                onClick={e => e.stopPropagation()}
+                onClick={e => { e.stopPropagation(); window.scrollTo(0, 0); }}
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
               >
                 Читать кейс целиком
