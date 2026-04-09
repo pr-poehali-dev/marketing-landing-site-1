@@ -188,7 +188,7 @@ const KodKlass = () => {
 
           <div className="rounded-xl overflow-hidden border border-gray-200 bg-white">
             <div className="px-6 py-3 bg-gray-50 border-b border-gray-200">
-              <span className="text-sm font-medium text-muted-foreground">Что тестировали (остались как поддерживающие каналы)</span>
+              <span className="text-sm font-medium text-muted-foreground">Что тестировал (остались как поддерживающие каналы)</span>
             </div>
             <table className="w-full">
               <tbody>
