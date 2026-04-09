@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import OnlineSchoolHobby from "./pages/cases/OnlineSchoolHobby";
 import Cases from "./pages/Cases";
 import KodKlass from "./pages/cases/KodKlass";
+import Vegannova from "./pages/cases/Vegannova";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/cases" element={<Cases />} />
           <Route path="/cases/online-school-hobby" element={<OnlineSchoolHobby />} />
           <Route path="/cases/kodklass" element={<KodKlass />} />
+          <Route path="/cases/vegannova" element={<Vegannova />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
