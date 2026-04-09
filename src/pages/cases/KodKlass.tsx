@@ -332,7 +332,7 @@ const KodKlass = () => {
                 {[
                   { stage: 'Реклама', metric: 'CPC, CTR, CR в клик' },
                   { stage: 'Бот / лендинг', metric: 'CR в запись на пробный' },
-                  { stage: 'Пробный урок', metric: 'Шоу-ап, доходимость' },
+                  { stage: 'Пробный урок', metric: 'Доходимость' },
                   { stage: 'Продажа', metric: 'CR в оплату, ДРР по связке' },
                 ].map((row, i) => (
                   <tr key={i} className="border-b border-gray-100 last:border-0">
@@ -342,6 +342,17 @@ const KodKlass = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          <div className="rounded-xl overflow-hidden border border-gray-200 bg-white mb-8">
+            <img
+              src="https://cdn.poehali.dev/projects/56b091ad-15fa-4b9f-b598-f9ae88a1ec56/bucket/dce76afd-31c3-4ed9-b4aa-97c2883a6641.png"
+              alt="РНП-таблица для контроля трафика"
+              className="w-full object-cover"
+            />
+            <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
+              <span className="text-sm text-muted-foreground">РНП-таблица для контроля трафика</span>
+            </div>
           </div>
 
           <div className="p-5 rounded-xl bg-amber-50 border border-amber-200">
