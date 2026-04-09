@@ -284,7 +284,7 @@ const KodKlass = () => {
                 {[
                   'Алгоритм запуска новых кампаний — от гипотезы до первых данных',
                   'Чек-листы по креативам и сегментации аудиторий',
-                  'Единые стандарты UTM-разметки для сквозной аналитики',
+                  'Единые стандарты ref-разметки для сквозной аналитики',
                   'Еженедельные ретроспективы и перераспределение бюджета',
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
@@ -315,7 +315,7 @@ const KodKlass = () => {
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-10">Сквозная аналитика: от клика до оплаты</h2>
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-2 mb-10 flex-wrap">
-            {['ВКонтакте Ads', 'Senler / Tilda', 'AmoCRM', 'Сводный дашборд Google Таблицы'].map((step, i, arr) => (
+            {['ВКонтакте и Vk-Ads', 'Senler / Tilda', 'AmoCRM', 'Сводный дашборд Google Таблицы'].map((step, i, arr) => (
               <div key={step} className="flex items-center gap-2">
                 <div className="px-4 py-2 rounded-lg bg-primary/10 text-primary font-medium text-sm text-center">{step}</div>
                 {i < arr.length - 1 && <Icon name="ArrowRight" size={18} className="text-muted-foreground shrink-0" />}
@@ -417,7 +417,7 @@ const KodKlass = () => {
         <div className="container mx-auto max-w-4xl">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Стек инструментов проекта</h2>
           <div className="flex flex-wrap gap-3">
-            {['ВКонтакте Ads', 'Senler', 'Tilda', 'AmoCRM', 'Google Таблицы', 'Telegram-посевы', 'Маркет-платформа VK', 'Яндекс.Метрика', 'UTM-разметка'].map((tool) => (
+            {['ВКонтакте и Vk-Ads', 'Senler', 'Tilda', 'AmoCRM', 'Google Таблицы', 'Telegram-посевы', 'Маркет-платформа VK', 'Яндекс.Метрика', 'UTM-разметка'].map((tool) => (
               <span key={tool} className="px-4 py-2 rounded-full bg-white border border-gray-200 text-sm font-medium text-gray-700 shadow-sm">{tool}</span>
             ))}
           </div>
