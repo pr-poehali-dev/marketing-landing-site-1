@@ -213,9 +213,9 @@ const KodKlass = () => {
       {/* ЭКРАН 5 — Оптимизация Senler */}
       <section className="py-16 px-4">
         <div className="container mx-auto max-w-4xl">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Как докручивали воронку изнутри</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Как докручивал воронку изнутри</h2>
           <p className="text-muted-foreground mb-10 leading-relaxed">
-            Найти победную связку — это половина работы. Дальше нужно было выжать из неё максимум. Мы работали с Senler-ботом системно: не "правили на ощущение", а тестировали каждый элемент отдельно.
+            Найти победную связку — это половина работы. Дальше нужно было выжать из неё максимум. Я работал с Senler-ботом системно: не "правил на ощущениях", а тестировали каждый элемент отдельно.
           </p>
 
           <div className="space-y-4">
