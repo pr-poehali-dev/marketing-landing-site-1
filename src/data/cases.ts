@@ -167,6 +167,7 @@ export const cases: CaseData[] = [
     ]
   },
   {
+    pageLink: '/cases/kodklass',
     id: 'kids-programming',
     title: 'Онлайн-школа программирования для детей',
     subtitle: '4x рост выручки за 4 месяца',
