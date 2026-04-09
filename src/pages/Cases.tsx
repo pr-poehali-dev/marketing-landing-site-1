@@ -23,6 +23,15 @@ const casesPreviews = [
     stats: ['×4 рост выручки', 'ДРР 25–27%', '10+ млн ₽/мес'],
     link: '/cases/kodklass',
   },
+  {
+    id: 'vegannova',
+    image: 'https://static.tildacdn.com/tild3130-3562-4131-a430-646433646361/photo_2025-09-17_16-.jpg',
+    tag: 'E-commerce · БАДы и суперфуды · Wildberries + D2C',
+    title: 'Vegannova: оборот на Wildberries вырос на 40% при росте рекламных расходов всего на 9%',
+    subtitle: '90 артикулов, аналитика по каждому SKU и подгруппе, запуск D2C-магазина на InSales и 8 Telegram-воронок. 14% покупателей возвращаются за повторной покупкой.',
+    stats: ['+40% оборот', '+9% реклама', '14% повторных покупок', '500+ в D2C'],
+    link: '/cases/vegannova',
+  },
 ];
 
 const Cases = () => {

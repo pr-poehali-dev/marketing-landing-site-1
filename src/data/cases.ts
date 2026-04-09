@@ -69,7 +69,8 @@ export const cases: CaseData[] = [
     },
     images: [
       'https://static.tildacdn.com/tild3130-3562-4131-a430-646433646361/photo_2025-09-17_16-.jpg'
-    ]
+    ],
+    pageLink: '/cases/vegannova'
   },
   {
     id: 'greenexpo',
