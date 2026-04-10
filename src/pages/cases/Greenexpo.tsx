@@ -393,10 +393,9 @@ const Greenexpo = () => {
           {/* Галерея */}
           <div className="grid grid-cols-3 gap-3">
             {[
-              { url: 'https://cdn.poehali.dev/files/a0e92c43-57c5-43e1-8241-5e319cf6c6d1.jpg', alt: 'Аудитория выставки GreenExpo' },
-              { url: 'https://cdn.poehali.dev/files/e588c3c1-7c00-4921-b375-3af68f2adce2.jpg', alt: 'Стенды участников GreenExpo' },
-              { url: 'https://cdn.poehali.dev/files/b8099094-349d-4d08-8213-23740d7ff654.jpg', alt: 'Экспоненты на выставке GreenExpo' },
-
+              { url: 'https://cdn.poehali.dev/files/9dce4752-7b48-4f25-9972-0eb1eab32bd0.jpg', alt: 'Выставка GreenExpo 2025' },
+              { url: 'https://cdn.poehali.dev/files/30647dcf-da83-4863-b2ec-7178f83a657f.jpg', alt: 'Посетители GreenExpo 2025' },
+              { url: 'https://cdn.poehali.dev/files/5726d0b1-4ce2-4684-96e4-ba3ee2aa675c.jpg', alt: 'Мастер-класс на GreenExpo 2025' },
             ].map((photo, i) => (
               <div key={i} className="rounded-xl overflow-hidden border border-gray-200">
                 <img src={photo.url} alt={photo.alt} className="w-full h-[160px] object-cover" />
@@ -576,11 +575,16 @@ const Greenexpo = () => {
             </div>
           </div>
 
-          {/* Место под фото */}
-          <div className="rounded-2xl overflow-hidden border border-gray-200 mb-6 bg-gray-50 flex items-center justify-center min-h-[200px]">
-            <div className="text-center text-gray-400 py-12">
-              <Icon name="Image" size={40} className="mx-auto mb-3 opacity-40" />
-              <p className="text-sm opacity-60">Здесь будет фото Константина в роли модератора или спикера на мероприятии</p>
+          {/* Фото */}
+          <div className="grid grid-cols-2 gap-3 mb-6">
+            <div className="rounded-xl overflow-hidden border border-gray-200 col-span-2">
+              <img src="https://cdn.poehali.dev/files/a4fc1f58-5b0c-4761-9ec6-aff90325b93e.png" alt="Константин на GreenExpo 2025" className="w-full h-[280px] object-cover" />
+            </div>
+            <div className="rounded-xl overflow-hidden border border-gray-200">
+              <img src="https://cdn.poehali.dev/files/9dce4752-7b48-4f25-9972-0eb1eab32bd0.jpg" alt="Выставка GreenExpo 2025" className="w-full h-[180px] object-cover" />
+            </div>
+            <div className="rounded-xl overflow-hidden border border-gray-200">
+              <img src="https://cdn.poehali.dev/files/30647dcf-da83-4863-b2ec-7178f83a657f.jpg" alt="Посетители GreenExpo 2025" className="w-full h-[180px] object-cover" />
             </div>
           </div>
 
