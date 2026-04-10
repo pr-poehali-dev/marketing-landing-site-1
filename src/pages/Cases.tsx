@@ -59,6 +59,15 @@ const casesPreviews = [
     stats: ['+30 000 подписчиков VK', '3 канала', 'YouTube + Instagram с нуля'],
     link: '/cases/sven',
   },
+  {
+    id: 'vkusvill-praktika',
+    image: null,
+    tag: 'B2B · Event-маркетинг · Telegram-посевы',
+    title: 'ВкусВилл Практика: 40+ B2B-участников ежемесячно при бюджете 100–150 тыс ₽',
+    subtitle: 'После выгорания VK Ads перестроил стратегию и сделал Telegram-посевы основным каналом привлечения. Каждый месяц — стабильный набор целевых участников офлайн-мероприятия. Без Facebook. На данных и дисциплине.',
+    stats: ['40+ участников/мес', '100–150 тыс ₽/мес', 'Telegram как основной канал'],
+    link: '/cases/vkusvill-praktika',
+  },
 ];
 
 const Cases = () => {

@@ -227,6 +227,7 @@ export const cases: CaseData[] = [
     stat2Label: 'Бюджет в месяц',
     gradient: 'from-accent to-secondary',
     icon: 'Users',
+    pageLink: '/cases/vkusvill-praktika',
     image: 'https://static.tildacdn.com/tild6337-3337-4330-b134-656665323230/photo_2025-09-18_14-.jpg',
     fullDescription: [
       'Клиент: организатор ежемесячных офлайн B2B-мероприятий.',
