@@ -13,6 +13,7 @@ import KodKlass from "./pages/cases/KodKlass";
 import Vegannova from "./pages/cases/Vegannova";
 import Greenexpo from "./pages/cases/Greenexpo";
 import SkillCup from "./pages/cases/SkillCup";
+import Sven from "./pages/cases/Sven";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/cases/vegannova" element={<Vegannova />} />
           <Route path="/cases/greenexpo" element={<Greenexpo />} />
           <Route path="/cases/skillcup" element={<SkillCup />} />
+          <Route path="/cases/sven" element={<Sven />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

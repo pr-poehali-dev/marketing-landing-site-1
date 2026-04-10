@@ -50,6 +50,15 @@ const casesPreviews = [
     stats: ['1,5–6 млн ₽/мес', '4 канала', '30% вебинарная воронка'],
     link: '/cases/skillcup',
   },
+  {
+    id: 'sven',
+    image: 'https://static.tildacdn.com/tild6136-3265-4134-b239-336462363833/photo_2025-09-18_14-.jpg',
+    tag: 'Бренд-маркетинг · Контент-продакшн · Компьютерная акустика',
+    title: 'SVEN: digital-экосистема с нуля, рост VK с 40К до 70К, performance с ритейлом',
+    subtitle: 'Запустил YouTube и Instagram с нуля, вырастил VK на 30 000 подписчиков, организовал полный цикл контент-продакшна обзоров, коллаборации с Goods и геймерскими комьюнити, performance-кампании с ритейлом.',
+    stats: ['+30 000 подписчиков VK', '3 канала', 'YouTube + Instagram с нуля'],
+    link: '/cases/sven',
+  },
 ];
 
 const Cases = () => {

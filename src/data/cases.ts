@@ -320,6 +320,7 @@ export const cases: CaseData[] = [
     stat2Label: 'Запуск канала',
     gradient: 'from-primary to-accent',
     icon: 'Volume2',
+    pageLink: '/cases/sven',
     image: 'https://static.tildacdn.com/tild6136-3265-4134-b239-336462363833/photo_2025-09-18_14-.jpg',
     fullDescription: [
       'Клиент: SVEN — бренд компьютерной акустики и аксессуаров.',
