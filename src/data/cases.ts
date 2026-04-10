@@ -117,7 +117,8 @@ export const cases: CaseData[] = [
     },
     images: [
       'https://static.tildacdn.com/tild3739-3938-4264-b637-613736303232/photo_2025-09-18_11-.jpg'
-    ]
+    ],
+    pageLink: '/cases/greenexpo'
   },
   {
     pageLink: '/cases/online-school-hobby',
