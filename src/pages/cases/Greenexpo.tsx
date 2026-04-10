@@ -311,7 +311,7 @@ const Greenexpo = () => {
 
           {/* Фото конференции */}
           <div className="rounded-2xl overflow-hidden border border-gray-200 mb-10">
-            <img src="https://cdn.poehali.dev/files/bbfd613e-eb14-4455-99d4-94bfadd80665.jpg" alt="Аудитория на конференции GreenExpo" className="w-full object-cover max-h-[400px]" />
+            <img src="https://cdn.poehali.dev/files/8229e4cc-767b-4f8d-8010-8bdc75d622aa.png" alt="Константин Пожидаев в роли модератора на GreenExpo" className="w-full object-cover max-h-[400px]" />
           </div>
 
           {/* Что сделал под ключ */}
@@ -396,7 +396,7 @@ const Greenexpo = () => {
               { url: 'https://cdn.poehali.dev/files/a0e92c43-57c5-43e1-8241-5e319cf6c6d1.jpg', alt: 'Аудитория выставки GreenExpo' },
               { url: 'https://cdn.poehali.dev/files/e588c3c1-7c00-4921-b375-3af68f2adce2.jpg', alt: 'Стенды участников GreenExpo' },
               { url: 'https://cdn.poehali.dev/files/b8099094-349d-4d08-8213-23740d7ff654.jpg', alt: 'Экспоненты на выставке GreenExpo' },
-              { url: 'https://cdn.poehali.dev/files/31313b8a-b630-40cf-8e7f-e4701cc6a4dd.png', alt: 'Выступление на форуме GreenExpo' },
+
             ].map((photo, i) => (
               <div key={i} className="rounded-xl overflow-hidden border border-gray-200">
                 <img src={photo.url} alt={photo.alt} className="w-full h-[160px] object-cover" />
