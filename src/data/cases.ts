@@ -273,6 +273,7 @@ export const cases: CaseData[] = [
     stat2Label: 'Прямые/вебинары',
     gradient: 'from-secondary to-primary',
     icon: 'TrendingUp',
+    pageLink: '/cases/skillcup',
     image: 'https://static.tildacdn.com/tild3433-3363-4266-a133-353736393439/photo_2025-09-18_13-.jpg',
     fullDescription: [
       'Клиент: Skill Cup — платформа онлайн-курсов.',

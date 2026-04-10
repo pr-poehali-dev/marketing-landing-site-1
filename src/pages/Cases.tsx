@@ -41,6 +41,15 @@ const casesPreviews = [
     stats: ['×2 рост выставки', 'ДРР 8%', '40% из digital', '300 регистраций'],
     link: '/cases/greenexpo',
   },
+  {
+    id: 'skillcup',
+    image: null,
+    tag: 'Edtech · Performance-маркетинг · Онлайн-курсы',
+    title: 'Skill Cup: двухконтурная система продаж онлайн-курсов при бюджете до 6 млн ₽/мес',
+    subtitle: 'Я зашёл как единственный performance-маркетолог. Выстроил вебинарную воронку с авторами + прямые продажи из рекламы. Собрал команду, запустил 4 канала, масштабировал бюджет с сохранением CAC/ДРР.',
+    stats: ['1,5–6 млн ₽/мес', '4 канала', '30% вебинарная воронка'],
+    link: '/cases/skillcup',
+  },
 ];
 
 const Cases = () => {
@@ -88,6 +97,14 @@ const Cases = () => {
                         alt={c.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
+                    ) : c.id === 'skillcup' ? (
+                      <div className="w-full h-full bg-gradient-to-br from-violet-600 via-indigo-600 to-primary flex items-center justify-center min-h-[256px]">
+                        <div className="text-center text-white p-8">
+                          <div className="text-5xl font-black mb-2 opacity-90">6 млн ₽</div>
+                          <div className="text-base font-semibold opacity-80">бюджет/мес</div>
+                          <div className="mt-3 text-sm opacity-60">4 канала · вебинарная воронка</div>
+                        </div>
+                      </div>
                     ) : (
                       <div className="w-full h-full bg-gradient-to-br from-blue-500 via-purple-500 to-secondary flex items-center justify-center min-h-[256px]">
                         <div className="text-center text-white p-8">
