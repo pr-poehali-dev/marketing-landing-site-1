@@ -103,12 +103,9 @@ const Greenexpo = () => {
             ))}
           </div>
 
-          {/* Место под главное фото */}
-          <div className="rounded-2xl overflow-hidden border border-gray-200 mb-10 bg-emerald-50 flex items-center justify-center min-h-[280px]">
-            <div className="text-center text-emerald-400 py-16">
-              <Icon name="Image" size={48} className="mx-auto mb-3 opacity-40" />
-              <p className="text-sm opacity-60">Здесь будет главное фото с выставки или конференции</p>
-            </div>
+          {/* Главное фото */}
+          <div className="rounded-2xl overflow-hidden border border-gray-200 mb-10">
+            <img src="https://cdn.poehali.dev/files/03e8bbb7-df8b-47a8-9583-3923df600702.JPG" alt="Выступление на конференции GreenExpo" className="w-full object-cover max-h-[480px]" />
           </div>
 
           <Dialog open={formOpen} onOpenChange={setFormOpen}>
@@ -312,12 +309,9 @@ const Greenexpo = () => {
             </div>
           </div>
 
-          {/* Место под фото конференции */}
-          <div className="rounded-2xl overflow-hidden border border-gray-200 mb-10 bg-emerald-50 flex items-center justify-center min-h-[200px]">
-            <div className="text-center text-emerald-400 py-12">
-              <Icon name="Image" size={40} className="mx-auto mb-3 opacity-40" />
-              <p className="text-sm opacity-60">Здесь будет фото со съёмки конференции — спикеры в эфире или скрин трансляции</p>
-            </div>
+          {/* Фото конференции */}
+          <div className="rounded-2xl overflow-hidden border border-gray-200 mb-10">
+            <img src="https://cdn.poehali.dev/files/bbfd613e-eb14-4455-99d4-94bfadd80665.jpg" alt="Аудитория на конференции GreenExpo" className="w-full object-cover max-h-[400px]" />
           </div>
 
           {/* Что сделал под ключ */}
@@ -396,18 +390,18 @@ const Greenexpo = () => {
             </ul>
           </div>
 
-          {/* Галерея — места под фото */}
+          {/* Галерея */}
           <div className="grid grid-cols-3 gap-3">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="rounded-xl overflow-hidden border border-gray-200 bg-emerald-50 flex items-center justify-center min-h-[140px]">
-                <div className="text-center text-emerald-400 p-4">
-                  <Icon name="Image" size={28} className="mx-auto mb-2 opacity-40" />
-                  <p className="text-xs opacity-50">Фото с выставки {i}</p>
-                </div>
+            {[
+              { url: 'https://cdn.poehali.dev/files/a0e92c43-57c5-43e1-8241-5e319cf6c6d1.jpg', alt: 'Аудитория выставки GreenExpo' },
+              { url: 'https://cdn.poehali.dev/files/e588c3c1-7c00-4921-b375-3af68f2adce2.jpg', alt: 'Стенды участников GreenExpo' },
+              { url: 'https://cdn.poehali.dev/files/b8099094-349d-4d08-8213-23740d7ff654.jpg', alt: 'Экспоненты на выставке GreenExpo' },
+            ].map((photo, i) => (
+              <div key={i} className="rounded-xl overflow-hidden border border-gray-200">
+                <img src={photo.url} alt={photo.alt} className="w-full h-[160px] object-cover" />
               </div>
             ))}
           </div>
-          <p className="text-xs text-muted-foreground mt-3">Здесь будут 2-3 фото с выставки — экспоненты, залы, деловая программа</p>
         </div>
       </section>
 
