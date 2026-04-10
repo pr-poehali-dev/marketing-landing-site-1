@@ -396,6 +396,7 @@ const Greenexpo = () => {
               { url: 'https://cdn.poehali.dev/files/a0e92c43-57c5-43e1-8241-5e319cf6c6d1.jpg', alt: 'Аудитория выставки GreenExpo' },
               { url: 'https://cdn.poehali.dev/files/e588c3c1-7c00-4921-b375-3af68f2adce2.jpg', alt: 'Стенды участников GreenExpo' },
               { url: 'https://cdn.poehali.dev/files/b8099094-349d-4d08-8213-23740d7ff654.jpg', alt: 'Экспоненты на выставке GreenExpo' },
+              { url: 'https://cdn.poehali.dev/files/31313b8a-b630-40cf-8e7f-e4701cc6a4dd.png', alt: 'Выступление на форуме GreenExpo' },
             ].map((photo, i) => (
               <div key={i} className="rounded-xl overflow-hidden border border-gray-200">
                 <img src={photo.url} alt={photo.alt} className="w-full h-[160px] object-cover" />
