@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LeadForm from '@/components/LeadForm';
 import TelegramButton from '@/components/TelegramButton';
 import CaseCard from '@/components/CaseCard';
@@ -25,6 +25,8 @@ const certImages: CertImage[] = [
 ];
 
 const Index = () => {
+  const navigate = useNavigate();
+
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -71,7 +73,7 @@ const Index = () => {
             <div className="hidden md:flex gap-6">
               <button onClick={() => scrollToSection('results')} className="text-sm font-medium hover:text-primary transition-colors">Результаты</button>
               <button onClick={() => scrollToSection('approach')} className="text-sm font-medium hover:text-primary transition-colors">Подход</button>
-              <button onClick={() => scrollToSection('cases')} className="text-sm font-medium hover:text-primary transition-colors">Кейсы</button>
+              <button onClick={() => navigate('/cases')} className="text-sm font-medium hover:text-primary transition-colors">Кейсы</button>
               <button onClick={() => scrollToSection('quiz')} className="text-sm font-medium hover:text-primary transition-colors">Квиз</button>
               <button onClick={() => scrollToSection('about-me')} className="text-sm font-medium hover:text-primary transition-colors">Обо мне</button>
               <button onClick={() => scrollToSection('contact')} className="text-sm font-medium hover:text-primary transition-colors">Контакты</button>
@@ -99,7 +101,7 @@ const Index = () => {
             <div className="md:hidden mt-4 pb-4 space-y-3 border-t pt-4">
               <button onClick={() => handleMobileMenuClick('results')} className="block w-full text-left py-2 px-4 hover:bg-primary/10 rounded-lg transition-colors">Результаты</button>
               <button onClick={() => handleMobileMenuClick('approach')} className="block w-full text-left py-2 px-4 hover:bg-primary/10 rounded-lg transition-colors">Подход</button>
-              <button onClick={() => handleMobileMenuClick('cases')} className="block w-full text-left py-2 px-4 hover:bg-primary/10 rounded-lg transition-colors">Кейсы</button>
+              <button onClick={() => { setMobileMenuOpen(false); navigate('/cases'); }} className="block w-full text-left py-2 px-4 hover:bg-primary/10 rounded-lg transition-colors">Кейсы</button>
               <button onClick={() => handleMobileMenuClick('quiz')} className="block w-full text-left py-2 px-4 hover:bg-primary/10 rounded-lg transition-colors">Квиз</button>
               <button onClick={() => handleMobileMenuClick('about-me')} className="block w-full text-left py-2 px-4 hover:bg-primary/10 rounded-lg transition-colors">Обо мне</button>
               <button onClick={() => handleMobileMenuClick('contact')} className="block w-full text-left py-2 px-4 hover:bg-primary/10 rounded-lg transition-colors">Контакты</button>
